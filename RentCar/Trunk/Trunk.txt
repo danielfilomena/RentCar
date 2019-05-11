@@ -1,3 +1,0 @@
-Diretório com a versão mais atual;
-Realizar merge das branches;
-Não deve ser utilizado para desenvolvimento;
