@@ -9,7 +9,8 @@ CREATE DATABASE "RentCar"
 	
 CREATE TABLE Usuario(
 	usuarioId	serial not null,
-	usuarioNome	varChar(10) not Null,
+	usuarioNome	varChar(100) not Null,
+	usuarioLogin	varChar(50) not null,
 	usuarioSenha	varChar(10)	not Null,
 		CONSTRAINT PK_Usuario_usuarioId PRIMARY KEY(usuarioID));
 													
