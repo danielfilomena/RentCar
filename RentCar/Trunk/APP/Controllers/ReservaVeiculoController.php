@@ -25,9 +25,9 @@ class ReservaVeiculoController {
 
     public function inserir( $request, $response, $args) {
         $p = $request->getParsedBody();
-        $reservaveiculo = new ReservaVeiculo(0,$p['modelo'],$p['marca']),$p['placa'],$p['cliente'],$p['dataretirada'],$p['dataprevistaentrega'],$p['valor']),$p['formapagamento'];
+        $reservaveiculo = new ReservaVeiculo(0,$p['modelo'],$p['marca']),$p['cliente'],$p['dataretirada'],$p['dataprevistaentrega'],$p['valor']),$p['formapagamento'];
     
-        $dao = new RservaVeiculoDAO;
+        $dao = new ReservaVeiculoDAO;
         $reservaveiculo = $dao->inserir($reservaveiculo);
     
         return $response->withJson($reservaveiculo,201);    
@@ -36,8 +36,8 @@ class ReservaVeiculoController {
     public function atualizar($request, $response, $args) {
         $id = $args['id'];
         $p = $request->getParsedBody();
-        $reservaveiculo = new ReservaVeiculo($id, $p['modelo'],$p['marca']),$p['placa'],$p['cliente'],$p['dataretirada'],$p['dataprevistaentrega'],$p['valor']),$p['formapagamento'];
-        $dao = new RservaVeiculoDAO;
+        $reservaveiculo = new ReservaVeiculo($id, $p['modelo'],$p['marca']),,$p['cliente'],$p['dataretirada'],$p['dataprevistaentrega'],$p['valor']),$p['formapagamento'];
+        $dao = new ReservaVeiculoDAO;
         $reservaveiculo = $dao->atualizar($reservaveiculo);
     
         return $response->withJson($reservaveiculo);    
@@ -46,7 +46,7 @@ class ReservaVeiculoController {
     public function deletar($request, $response, $args) {
         $id = $args['id'];
 
-        $dao = new RservaVeiculoDAO;
+        $dao = new ReservaVeiculoDAO;
         $reservaveiculo = $dao->deletar($id);
     
         return $response->withJson($reservaveiculo);  
