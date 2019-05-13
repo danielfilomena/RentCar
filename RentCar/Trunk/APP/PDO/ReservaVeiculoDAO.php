@@ -2,21 +2,20 @@
     include_once 'ReservaVeiculo.php';
 	include_once 'PDOFactory.php';
 
-    class RservaVeiculoDAO
+    class ReservaVeiculoDAO
     {
-        public function inserir(RservaVeiculo $reservaveiculo)
+        public function inserir(ReservaVeiculo $reservaveiculo)
         {
-            $qInserir = "INSERT INTO reserva(reservamodelo, reservamarca, reservaplaca, reservacliente, reservadataretirada, reservadataprevistaentrega, valor, reservaformapagamento ) VALUES (:modelo,:marca,:placa,:cliente,:dataretirada,:dataprevistaentrega,:valor,:formapagamento)";            
+            $qInserir = "INSERT INTO reserva(reservamodelo, reservamarca, reservacliente, reservadataretirada, reservadataprevistaentrega, reservavalor, reservaformapagamento ) VALUES (:modelo,:marca,:cliente,:dataretirada,:dataprevistaentrega,:valor,:formapagamento)";            
             $pdo = PDOFactory::getConexao();
             $comando = $pdo->prepare($qInserir);
             $comando->bindParam(":modelo",$reserva->modelo);
             $comando->bindParam(":marca",$reserva->marca);
-            $comando->bindParam(":placa",$reserva->placa);
-            $comando->bindParam(":placa",$reserva->cliente);
-            $comando->bindParam(":placa",$reserva->dataretirada);
-            $comando->bindParam(":placa",$reserva->dataprevistaentrega);
-            $comando->bindParam(":placa",$reserva->valor);
-            $comando->bindParam(":placa",$reserva->formapagamento);
+            $comando->bindParam(":cliente",$reserva->cliente);
+            $comando->bindParam(":dataretirada",$reserva->dataretirada);
+            $comando->bindParam(":dataprevistaentrega",$reserva->dataprevistaentrega);
+            $comando->bindParam(":valor",$reserva->valor);
+            $comando->bindParam(":formapagamento",$reserva->formapagamento);
             
             $comando->execute();
             $reserva->id = $pdo->lastInsertId();
@@ -36,17 +35,16 @@
 
         public function atualizar(Reserva $reserva)
         {
-            $qAtualizar = "UPDATE reserva SET reservamodelo=:modelo, reservamarca=:marca, reservaplaca=:placa, reservacliente=:cliente, reservadataretirada=:dataretirada, reservadataprevistaentrega=:dataprevistaentrega, reservavalor=:valor, reservaformapagamento=:formapagamento  WHERE reservaid=:id";            
+            $qAtualizar = "UPDATE reserva SET reservamodelo=:modelo, reservamarca=:marca, reservacliente=:cliente, reservadataretirada=:dataretirada, reservadataprevistaentrega=:dataprevistaentrega, reservavalor=:valor, reservaformapagamento=:formapagamento  WHERE reservaid=:id";            
             $pdo = PDOFactory::getConexao();
             $comando = $pdo->prepare($qAtualizar);
-            $comando->bindParam(":modelo",$reserva->modelo);
+               $comando->bindParam(":modelo",$reserva->modelo);
             $comando->bindParam(":marca",$reserva->marca);
-            $comando->bindParam(":placa",$reserva->placa);
-            $comando->bindParam(":placa",$reserva->cliente);
-            $comando->bindParam(":placa",$reserva->dataretirada);
-            $comando->bindParam(":placa",$reserva->dataprevistaentrega);
-            $comando->bindParam(":placa",$reserva->valor);
-            $comando->bindParam(":placa",$reserva->formapagamento);
+            $comando->bindParam(":cliente",$reserva->cliente);
+            $comando->bindParam(":dataretirada",$reserva->dataretirada);
+            $comando->bindParam(":dataprevistaentrega",$reserva->dataprevistaentrega);
+            $comando->bindParam(":valor",$reserva->valor);
+            $comando->bindParam(":formapagamento",$reserva->formapagamento);
             $comando->bindParam(":id",$reserva->id);
             $comando->execute();
             return $reserva;        
@@ -60,7 +58,7 @@
     		$comando->execute();
             $reservas=array();	
 		    while($row = $comando->fetch(PDO::FETCH_OBJ)){
-			    $reservas[] = new Reserva($row->id,$row->modelo,$row->marca,$row->placa,$row->cliente,$row->dataretirada,$row->dataprevistaentrega,$row->valor,$row->formapagamento);
+			    $reservas[] = new Reserva($row->id,$row->modelo,$row->marca,$row->cliente,$row->dataretirada,$row->dataprevistaentrega,$row->valor,$row->formapagamento);
             }
             return $reservas;
         }
@@ -73,7 +71,7 @@
 		    $comando->bindParam ('id', $id);
 		    $comando->execute();
 		    $result = $comando->fetch(PDO::FETCH_OBJ);
-		    return new Reserva($row->id,$row->modelo,$row->marca,$row->placa,$row->cliente,$row->dataretirada,$row->dataprevistaentrega,$row->valor,$row->formapagamento);           
+		    return new Reserva($row->id,$row->modelo,$row->marca,,$row->cliente,$row->dataretirada,$row->dataprevistaentrega,$row->valor,$row->formapagamento);           
         }
     }
 ?>
