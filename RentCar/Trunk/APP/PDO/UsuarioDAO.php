@@ -69,13 +69,13 @@
 
         public function buscarPorLogin($login)
         {
- 		    $query = 'SELECT * FROM usuario WHERE usuariologin=:login';		
+ 		    $query = "SELECT * FROM usuario WHERE usuariologin=:login";		
             $pdo = PDOFactory::getConexao(); 
 		    $comando = $pdo->prepare($query);
-		    $comando->bindParam ('login', $login);
+		    $comando->bindParam (':login', $login);
 		    $comando->execute();
 		    $result = $comando->fetch(PDO::FETCH_OBJ);
-		    return new Usuario($result->usuarioid,$result->usuarionome,$result->usuariologin,$result->usuariosenha);           
+		    return new Usuario($result->usuarioid, $result->usuarionome, $result->usuariologin, $result->usuariosenha);           
         }
 
     }

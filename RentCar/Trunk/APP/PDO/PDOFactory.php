@@ -11,11 +11,11 @@
         public static function getConexao()        
         {
             
-            //try{
+            try{
                 
                     $conexao = 'pgsql:host=localhost;dbname=RentCar;';                                      				    
                     $user = 'postgres';
-                    $pass = 'admin';
+                    $pass = 'postgresql';
 
                     $pdo = new PDO($conexao, $user, $pass);                     
 
@@ -24,12 +24,12 @@
 		            $pdo->setAttribute(PDO::ATTR_STRINGIFY_FETCHES,false);
                     $pdo->setAttribute(PDO::ATTR_EMULATE_PREPARES, false);
 
-            //}
-            //catch(exception $e){
+            }
+            catch(exception $e){
 
-            //    die('Erro ao conectar no banco de dados.');
+                die('Erro ao conectar no banco de dados.');
 
-            //}
+            }
 
             return $pdo;
         }        
