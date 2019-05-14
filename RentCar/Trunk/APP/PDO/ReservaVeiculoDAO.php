@@ -1,22 +1,18 @@
 <?php
-    include_once 'ReservaVeiculo.php';
-	include_once 'PDOFactory.php';
+    
+    include_once './APP/Models/ReservaVeiculo.php';
+	include_once './APP/PDO/PDOFactory.php';
 
     class ReservaVeiculoDAO
     {
-        public function inserir(ReservaVeiculo $reservaveiculo)
+        public function inserir(ReservaVeiculo $reserva)
         {
-            $qInserir = "INSERT INTO reserva(reservamodelo, reservamarca, reservacliente, reservadataretirada, reservadataprevistaentrega, reservavalor, reservaformapagamento ) VALUES (:modelo,:marca,:cliente,:dataretirada,:dataprevistaentrega,:valor,:formapagamento)";            
+            $qInserir = "INSERT INTO reserva(veiculoid, clienteid, dataretirada) VALUES(:idveiculo, :idcliente, :dataretirada)";            
             $pdo = PDOFactory::getConexao();
-            $comando = $pdo->prepare($qInserir);
-            $comando->bindParam(":modelo",$reserva->modelo);
-            $comando->bindParam(":marca",$reserva->marca);
-            $comando->bindParam(":cliente",$reserva->cliente);
-            $comando->bindParam(":dataretirada",$reserva->dataretirada);
-            $comando->bindParam(":dataprevistaentrega",$reserva->dataprevistaentrega);
-            $comando->bindParam(":valor",$reserva->valor);
-            $comando->bindParam(":formapagamento",$reserva->formapagamento);
-            
+            $comando = $pdo->prepare($qInserir);            
+            $comando->bindParam(":idveiculo", $reserva->idVeiculo);
+            $comando->bindParam(":idcliente", $reserva->idCliente);
+            $comando->bindParam(":dataretirada", $reserva->dataretirada);                        
             $comando->execute();
             $reserva->id = $pdo->lastInsertId();
             return $reserva;
@@ -33,45 +29,43 @@
             return $reserva;
         }
 
-        public function atualizar(Reserva $reserva)
+        public function atualizar(ReservaVeiculo $reserva)
         {
-            $qAtualizar = "UPDATE reserva SET reservamodelo=:modelo, reservamarca=:marca, reservacliente=:cliente, reservadataretirada=:dataretirada, reservadataprevistaentrega=:dataprevistaentrega, reservavalor=:valor, reservaformapagamento=:formapagamento  WHERE reservaid=:id";            
+
+            $qAtualizar = "UPDATE reserva SET veiculoid=:idveiculo, clienteid=:idcliente, dataretirada=:dataretirada WHERE reservaid=:id";            
             $pdo = PDOFactory::getConexao();
             $comando = $pdo->prepare($qAtualizar);
-               $comando->bindParam(":modelo",$reserva->modelo);
-            $comando->bindParam(":marca",$reserva->marca);
-            $comando->bindParam(":cliente",$reserva->cliente);
-            $comando->bindParam(":dataretirada",$reserva->dataretirada);
-            $comando->bindParam(":dataprevistaentrega",$reserva->dataprevistaentrega);
-            $comando->bindParam(":valor",$reserva->valor);
-            $comando->bindParam(":formapagamento",$reserva->formapagamento);
+            $comando->bindParam(":idveiculo", $reserva->idVeiculo);
+            $comando->bindParam(":idcliente", $reserva->idCliente);
+            $comando->bindParam(":dataretirada", $reserva->dataretirada);
             $comando->bindParam(":id",$reserva->id);
             $comando->execute();
-            return $reserva;        
+            return $reserva;   
+
         }
 
         public function listar()
         {
-		    $query = 'SELECT * FROM reserva';
+		    $query = "SELECT * FROM reserva";
     		$pdo = PDOFactory::getConexao();
 	    	$comando = $pdo->prepare($query);
     		$comando->execute();
-            $reservas=array();	
+            $reserva=array();	
 		    while($row = $comando->fetch(PDO::FETCH_OBJ)){
-			    $reservas[] = new Reserva($row->id,$row->modelo,$row->marca,$row->cliente,$row->dataretirada,$row->dataprevistaentrega,$row->valor,$row->formapagamento);
+			    $reserva[] = new ReservaVeiculo($row->reservaid, $row->veiculoid, $row->clienteid, $row->dataretirada);
             }
-            return $reservas;
+            return $reserva;
         }
 
         public function buscarPorId($id)
         {
- 		    $query = 'SELECT * FROM reserva WHERE reservaid=:id';		
+ 		    $query = "SELECT * FROM reserva WHERE reservaid=:id";		
             $pdo = PDOFactory::getConexao(); 
 		    $comando = $pdo->prepare($query);
-		    $comando->bindParam ('id', $id);
+		    $comando->bindParam (':id', $id);
 		    $comando->execute();
 		    $result = $comando->fetch(PDO::FETCH_OBJ);
-		    return new Reserva($row->id,$row->modelo,$row->marca,,$row->cliente,$row->dataretirada,$row->dataprevistaentrega,$row->valor,$row->formapagamento);           
+		    return new ReservaVeiculo($result->reservaid, $result->veiculoid, $result->clienteid, $result->dataretirada);
         }
     }
 ?>

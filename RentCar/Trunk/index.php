@@ -3,7 +3,12 @@
 use \Psr\Http\Message\ServerRequestInterface as Request;
 use \Psr\Http\Message\ResponseInterface as Response;
 
-include_once('APP/Controllers/UsuarioController.php');
+include_once('./APP/Controllers/UsuarioController.php');
+include_once('./APP/Controllers/VeiculoController.php');
+include_once('./APP/Controllers/ClienteController.php');
+include_once('./APP/Controllers/DevolucaoVeiculoController.php');
+include_once('./APP/Controllers/LocacaoVeiculoController.php');
+include_once('./APP/Controllers/ReservaVeiculoController.php');
 
 require './vendor/autoload.php';
 
@@ -11,13 +16,67 @@ $app = new \Slim\App;
 
 $app->group('/usuarios', function() use ($app) {    
 
-    $app->get("","'UsuarioController:listar");
+    $app->get("", 'UsuarioController:listar'); 
+    $app->post("", 'UsuarioController:inserir');
 
-    //$app->post('','ProdutoController:inserir');
+    $app->get('/{id}','UsuarioController:buscarPorId');
+    $app->put('/{id}','UsuarioController:atualizar');
+    $app->delete('/{id}', 'UsuarioController:deletar');
 
-    //$app->get('/{id}','ProdutoController:buscarPorId');    
-    //$app->put('/{id}','ProdutoController:atualizar');
-    //$app->delete('/{id}', 'ProdutoController:deletar');
+});
+
+$app->group('/veiculos', function() use ($app) {    
+
+    $app->get("", 'VeiculoController:listar');
+    $app->post("", 'VeiculoController:inserir');
+
+    $app->get('/{id}','VeiculoController:buscarPorId');
+    $app->put('/{id}','VeiculoController:atualizar');
+    $app->delete('/{id}', 'VeiculoController:deletar');
+
+});
+
+$app->group('/clientes', function() use ($app) {    
+
+    $app->get("", 'ClienteController:listar');
+    $app->post("", 'ClienteController:inserir');
+
+    $app->get('/{id}','ClienteController:buscarPorId');
+    $app->put('/{id}','ClienteController:atualizar');
+    $app->delete('/{id}', 'ClienteController:deletar');
+
+});
+
+$app->group('/devolucoes', function() use ($app) {    
+
+    $app->get("", 'DevolucaoVeiculoController:listar');
+    $app->post("", 'DevolucaoVeiculoController:inserir');
+
+    $app->get('/{id}','DevolucaoVeiculoController:buscarPorId');
+    $app->put('/{id}','DevolucaoVeiculoController:atualizar');
+    $app->delete('/{id}', 'DevolucaoVeiculoController:deletar');
+
+});
+
+$app->group('/locacoes', function() use ($app) {    
+
+    $app->get("", 'LocacaoVeiculoController:listar');
+    $app->post("", 'LocacaoVeiculoController:inserir');
+
+    $app->get('/{id}','LocacaoVeiculoController:buscarPorId');
+    $app->put('/{id}','LocacaoVeiculoController:atualizar');
+    $app->delete('/{id}', 'LocacaoVeiculoController:deletar');
+
+});
+
+$app->group('/reservas', function() use ($app) {    
+
+    $app->get("", 'ReservaVeiculoController:listar');
+    $app->post("", 'ReservaVeiculoController:inserir');
+
+    $app->get('/{id}','ReservaVeiculoController:buscarPorId');
+    $app->put('/{id}','ReservaVeiculoController:atualizar');
+    $app->delete('/{id}', 'ReservaVeiculoController:deletar');
 
 });
 

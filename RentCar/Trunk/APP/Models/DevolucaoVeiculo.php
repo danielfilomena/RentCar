@@ -3,24 +3,22 @@
     class DevolucaoVeiculo {
         
         public $id;
-        public $modelo;
-        public $marca;
-        public $placa;
-        public $cliente;
+        public $idVeiculo;        
+        public $idCliente;
+        public $dataDevolucao;
         public $tanque;
         public $avaria;
-        public $valortotallocacao;
-        
+        public $valortotal;        
 
-        function __construct($id, $modelo, $marca,$placa,$cliente,$tanque,$avaria,$valortotallocacao){
+        function __construct($id, $idVeiculo, $idCliente, $dataDevolucao, $tanque, $avaria, $valortotal){
+
             $this->id = $id;
-            $this->modelo = $modelo;
-            $this->marca = $marca;
-            $this->placa = $placa;
-            $this->cliente = $cliente;
+            $this->idVeiculo = $idVeiculo;
+            $this->idCliente = $idCliente;
+            $this->dataDevolucao = $datadevolucao;
             $this->tanque = $tanque;
             $this->avaria = $avaria;
-            $this->valortotallocacao = $valortotallocacao;
+            $this->valortotal = $valortotal;
                     
         }
 

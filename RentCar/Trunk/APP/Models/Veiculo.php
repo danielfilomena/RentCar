@@ -8,7 +8,7 @@
         public $ano;
         public $placa;
 
-        function __construct($id, $modelo, $marca,$ano,$placa){
+        function __construct($id, $modelo, $marca, $ano, $placa){
             $this->id = $id;
             $this->modelo = $modelo;
             $this->marca = $marca;

@@ -2,24 +2,18 @@
 
     class ReservaVeiculo {
         
-        public $id;
-        public $modelo;
-        public $marca;
-        public $cliente;
-        public $dataretirada;
-        public $dataprevistaentrega;
-        public $valor;
-        public $formapagamento;
+        public $id;        
+        public $idVeiculo;
+        public $idCliente;
+        public $dataretirada;        
 
-        function __construct($id, $modelo, $marca,$cliente,$dataretirada,$dataprevistaentrega,$valor,$formapagamento){
+        function __construct($id, $idVeiculo, $idCliente, $dataretirada){
+
             $this->id = $id;
-            $this->modelo = $modelo;
-            $this->marca = $marca;
-            $this->cliente = $cliente;
+            $this->idVeiculo = $idVeiculo;
+            $this->idCliente = $idCliente;
             $this->dataretirada = $dataretirada;
-            $this->dataprevistaentrega = $dataprevistaentrega;
-            $this->valor = $valor;
-            $this->formapagamento = $formapagamento;
+            
         
         }
 

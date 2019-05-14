@@ -8,7 +8,7 @@
         public $endereco;
         
 
-        function __construct($id, $nome, $cnh,$endereco){
+        function __construct($id, $nome, $cnh, $endereco){
             $this->id = $id;
             $this->nome = $nome;
             $this->cnh = $cnh;

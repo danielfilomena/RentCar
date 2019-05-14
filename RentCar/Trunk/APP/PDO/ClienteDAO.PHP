@@ -1,6 +1,6 @@
 <?php
-    include_once 'Cliente.php';
-	include_once 'PDOFactory.php';
+    include_once './APP/Models/Cliente.php';
+	include_once './APP/PDO/PDOFactory.php';
 
     class ClienteDAO
     {
@@ -34,9 +34,10 @@
             $qAtualizar = "UPDATE cliente SET clientenome=:nome, clientecnh=:cnh, clienteendereco=:endereco WHERE clienteid=:id";            
             $pdo = PDOFactory::getConexao();
             $comando = $pdo->prepare($qAtualizar);
-            $comando->bindParam(":nome",$cliente->nome);
-            $comando->bindParam(":cnh",$cliente->cnh);
-            $comando->bindParam(":endereco",$cliente->endereco);
+            $comando->bindParam(":nome", $cliente->nome);
+            $comando->bindParam(":cnh", $cliente->cnh);
+            $comando->bindParam(":endereco", $cliente->endereco);
+            $comando->bindParam(":id", $cliente->id);
             $comando->execute();
             return $cliente;        
         }
@@ -47,11 +48,11 @@
     		$pdo = PDOFactory::getConexao();
 	    	$comando = $pdo->prepare($query);
     		$comando->execute();
-            $clientes=array();	
+            $cliente=array();	
 		    while($row = $comando->fetch(PDO::FETCH_OBJ)){
-			    $clientes[] = new Cliente($row->id,$row->nome,$row->cnh,$row->endereco);
+			    $cliente[] = new Cliente($row->clienteid, $row->clientenome, $row->clientecnh, $row->clienteendereco);
             }
-            return $clientes;
+            return $cliente;
         }
 
         public function buscarPorId($id)
@@ -59,10 +60,10 @@
  		    $query = 'SELECT * FROM cliente WHERE clienteid=:id';		
             $pdo = PDOFactory::getConexao(); 
 		    $comando = $pdo->prepare($query);
-		    $comando->bindParam ('id', $id);
+		    $comando->bindParam (':id', $id);
 		    $comando->execute();
 		    $result = $comando->fetch(PDO::FETCH_OBJ);
-		    return new cliente($result->id,$result->nome,$result->cnh,$result->endereco);           
+		    return new cliente($result->clienteid,$result->clientenome,$result->clientecnh,$result->clienteendereco);           
         }
     }
 ?>

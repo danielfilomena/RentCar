@@ -1,55 +1,60 @@
 <?php
 
-include_once('VeiculoController.php');
-include_once('UsuarioController.php');
-include_once('ClienteController.php');
-include_once('locacaoVeiculoController');
-include_once('LocacaoVeiculo');
+include_once './APP/Models/LocacaoVeiculo.php';
+include_once './APP/PDO/LocacaoVeiculoDAO.php';
 
 
 class LocacaoVeiculoController {
+
     public function listar($request, $response, $args) {
-        $dao= new locacaoVeiculoDAO;    
-        $locacaoveiculo =  $dao->listar();
+
+        $dao= new LocacaoVeiculoDAO;    
+        $locacao =  $dao->listar();
                 
-        return $response->withJson($locacaoveiculo);    
+        return $response->withJson($locacao);    
     }
     
     public function buscarPorId($request, $response, $args) {
+
         $id = $args['id'];
         
-        $dao= new locacaoVeiculoDAO;    
-        $locacaoveiculo = $dao->buscarPorId($id);
+        $dao= new LocacaoVeiculoDAO;    
+        $locacao = $dao->buscarPorId($id);
         
-        return $response->withJson($locacaoveiculo);
+        return $response->withJson($locacao);
     }
 
     public function inserir( $request, $response, $args) {
-        $p = $request->getParsedBody();
-        $locacaoveiculo = new locacaoVeiculo(0,$p['modelo'],$p['marca']),$p['placa']$p['cliente'],$p['dataatualretirada'],$p['dataprevistaentrega'],$p['valor']),$p['formapagamento'];
+
+        $var = $request->getParsedBody();        
+        $locacao = new LocacaoVeiculo(0, $var["idVeiculo"], $var["idCliente"], $var["dataretirada"], $var["datadevolucao"], $var["valor"], $var["formapagamento"]);
+
+        $dao = new LocacaoVeiculoDAO;
+        $locacao = $dao->inserir($locacao);
     
-        $dao = new locacaoVeiculoDAO;
-        $locacaoveiculo = $dao->inserir($locacaoveiculo);
-    
-        return $response->withJson($locacaoveiculo,201);    
+        return $response->withJson($locacao,201);    
     }
     
     public function atualizar($request, $response, $args) {
+
         $id = $args['id'];
-        $p = $request->getParsedBody();
-        $locacaoveiculo = new locacaoVeiculo($id, $p['modelo'],$p['marca']),$p['placa'],$p['cliente'],$p['dataatualretirada'],$p['dataprevistaentrega'],$p['valor']),$p['formapagamento'];
+        $var = $request->getParsedBody();
+        $locacao = new LocacaoVeiculo($id, $var["idVeiculo"], $var["idCliente"], $var["dataretirada"], $var["datadevolucao"], $var["valor"], $var["formapagamento"]);
+
         $dao = new LocacaoVeiculoDAO;
-        $locacaoveiculo = $dao->atualizar($locacaoveiculo);
+        $locacao = $dao->atualizar($locacao);
     
-        return $response->withJson($locacaoveiculo);    
+        return $response->withJson($locacao);    
+
     }
 
     public function deletar($request, $response, $args) {
+
         $id = $args['id'];
 
         $dao = new LocacaoVeiculoDAO;
-        $locacaoveiculo = $dao->deletar($id);
+        $locacao = $dao->deletar($id);
     
-        return $response->withJson($locacaoveiculo);  
+        return $response->withJson($locacao);  
     }
 }

@@ -3,23 +3,19 @@
     class LocacaoVeiculo {
         
         public $id;
-        public $modelo;
-        public $marca;
-        public $placa;
-        public $cliente;
-        public $dataatualretirada;
-        public $dataprevistaentrega;
+        public $idVeiculo;
+        public $idCliente;
+        public $dataretirada;
+        public $datadevolucao;
         public $valor;
         public $formapagamento;
 
-        function __construct($id, $modelo, $marca,$placa,$cliente,$dataatualretirada,$dataprevistaentrega,$valor,$formapagamento){
+        function __construct($id, $idVeiculo, $idCliente, $dataretirada, $datadevolucao, $valor, $formapagamento){
             $this->id = $id;
-            $this->modelo = $modelo;
-            $this->marca = $marca;
-            $this->placa = $placa;
-            $this->cliente = $cliente;
-            $this->dataatualretirada = $dataatualretirada;
-            $this->dataprevistaentrega = $dataprevistaentrega;
+            $this->idVeiculo = $idVeiculo;
+            $this->idCliente = $idCliente;
+            $this->dataretirada = $dataretirada;
+            $this->datadevolucao = $datadevolucao;
             $this->valor = $valor;
             $this->formapagamento = $formapagamento;
         

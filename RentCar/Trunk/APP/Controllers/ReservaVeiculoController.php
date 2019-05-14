@@ -1,54 +1,62 @@
 <?php
 
-include_once('VeiculoController.php');
-include_once('UsuarioController.php');
-include_once('ClienteController.php');
-include_once('ReservaVeiculoController');
-
+include_once './APP/Models/ReservaVeiculo.php';
+include_once './APP/PDO/ReservaVeiculoDAO.php';
 
 class ReservaVeiculoController {
+
     public function listar($request, $response, $args) {
+
         $dao= new ReservaVeiculoDAO;    
-        $reservaveiculo =  $dao->listar();
+        $reserva =  $dao->listar();
                 
-        return $response->withJson($reservaveiculo);    
+        return $response->withJson($reserva);    
     }
     
     public function buscarPorId($request, $response, $args) {
+
         $id = $args['id'];
         
         $dao= new ReservaVeiculoDAO;    
-        $reservaveiculo = $dao->buscarPorId($id);
+        $reserva = $dao->buscarPorId($id);
         
-        return $response->withJson($reservaveiculo);
+        return $response->withJson($reserva);
+
     }
 
     public function inserir( $request, $response, $args) {
-        $p = $request->getParsedBody();
-        $reservaveiculo = new ReservaVeiculo(0,$p['modelo'],$p['marca']),$p['cliente'],$p['dataretirada'],$p['dataprevistaentrega'],$p['valor']),$p['formapagamento'];
+
+        $var = $request->getParsedBody();
+        $reserva = new ReservaVeiculo(0, $var["idVeiculo"], $var["idCliente"], $var["dataretirada"]);
     
         $dao = new ReservaVeiculoDAO;
-        $reservaveiculo = $dao->inserir($reservaveiculo);
+        $reserva = $dao->inserir($reserva);
     
-        return $response->withJson($reservaveiculo,201);    
+        return $response->withJson($reserva,201);    
     }
     
     public function atualizar($request, $response, $args) {
+
         $id = $args['id'];
-        $p = $request->getParsedBody();
-        $reservaveiculo = new ReservaVeiculo($id, $p['modelo'],$p['marca']),,$p['cliente'],$p['dataretirada'],$p['dataprevistaentrega'],$p['valor']),$p['formapagamento'];
+        $var = $request->getParsedBody();
+        
+        $reserva = new ReservaVeiculo($id, $var["idVeiculo"], $var["idCliente"], $var["dataretirada"]);
+        
         $dao = new ReservaVeiculoDAO;
-        $reservaveiculo = $dao->atualizar($reservaveiculo);
+        $reserva = $dao->atualizar($reserva);
     
-        return $response->withJson($reservaveiculo);    
+        return $response->withJson($reserva);    
+
     }
 
     public function deletar($request, $response, $args) {
+
         $id = $args['id'];
 
         $dao = new ReservaVeiculoDAO;
-        $reservaveiculo = $dao->deletar($id);
+        $reserva = $dao->deletar($id);
     
-        return $response->withJson($reservaveiculo);  
+        return $response->withJson($reserva);  
+
     }
 }

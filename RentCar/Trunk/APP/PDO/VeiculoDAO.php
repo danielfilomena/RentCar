@@ -1,6 +1,6 @@
 <?php
-    include_once 'Veiculo.php';
-	include_once 'PDOFactory.php';
+    include_once './APP/Models/Veiculo.php';
+	include_once './APP/PDO/PDOFactory.php';
 
     class VeiculoDAO
     {
@@ -32,29 +32,35 @@
 
         public function atualizar(Veiculo $veiculo)
         {
+
             $qAtualizar = "UPDATE veiculo SET veiculomodelo=:modelo, veiculomarca=:marca, veiculoano=:ano, veiculoplaca=:placa WHERE veiculoid=:id";            
+            
             $pdo = PDOFactory::getConexao();
             $comando = $pdo->prepare($qAtualizar);
-                $comando->bindParam(":modelo",$veiculo->modelo);
-            $comando->bindParam(":marca",$veiculo->marca);
-            $comando->bindParam(":ano",$veiculo->ano);
-            $comando->bindParam(":placa",$veiculo->placa);
-            $comando->bindParam(":id",$veiculo->id);
+            $comando->bindParam(":modelo", $veiculo->modelo);
+            $comando->bindParam(":marca", $veiculo->marca);
+            $comando->bindParam(":ano", $veiculo->ano);
+            $comando->bindParam(":placa", $veiculo->placa);
+            $comando->bindParam(":id", $veiculo->id);
             $comando->execute();
             return $veiculo;        
-        }
 
+        }
+    
         public function listar()
         {
-		    $query = 'SELECT * FROM veiculo';
+		    $query = "SELECT * FROM veiculo";
     		$pdo = PDOFactory::getConexao();
 	    	$comando = $pdo->prepare($query);
     		$comando->execute();
-            $veiculos=array();	
-		    while($row = $comando->fetch(PDO::FETCH_OBJ)){
-			    $veiculos[] = new Veiculo($row->id,$row->modelo,$row->marca,$row->ano,$row->placa);
+            $veiculo=array();	
+            
+            while($row = $comando->fetch(PDO::FETCH_OBJ)){
+			    $veiculo[] = new Veiculo($row->veiculoid, $row->veiculomodelo, $row->veiculomarca, $row->veiculoano, $row->veiculoplaca);
             }
-            return $veiculos;
+
+            return $veiculo;
+            	        		        					                
         }
 
         public function buscarPorId($id)
@@ -65,7 +71,7 @@
 		    $comando->bindParam ('id', $id);
 		    $comando->execute();
 		    $result = $comando->fetch(PDO::FETCH_OBJ);
-		    return new Veiculo($result->id,$result->modelo,$result->marca,$result->ano,$result->placa);           
+		    return new Veiculo($result->veiculoid,$result->veiculomodelo,$result->veiculomarca,$result->veiculoano,$result->veiculoplaca);           
         }
     }
 ?>
