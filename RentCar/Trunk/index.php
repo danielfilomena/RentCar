@@ -56,7 +56,7 @@ $app->group('/locacoes', function() use ($app) {
     $app->put('/{id}','LocacaoVeiculoController:atualizar');
     $app->delete('/{id}', 'LocacaoVeiculoController:deletar');
 
-})->add('UsuarioController:validarToken');
+});//->add('UsuarioController:validarToken');
 
 $app->group('/reservas', function() use ($app) {    
 
