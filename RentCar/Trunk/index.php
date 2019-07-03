@@ -14,6 +14,10 @@ require './vendor/autoload.php';
 
 $app = new \Slim\App;
 
+$app->group('/usuarios', function() use ($app){
+    $app->get("", 'UsuarioController:listar');
+});
+
 $app->group('/veiculos', function() use ($app) {    
 
     $app->get("", 'VeiculoController:listar');
@@ -23,7 +27,7 @@ $app->group('/veiculos', function() use ($app) {
     $app->put('/{id}','VeiculoController:atualizar');
     $app->delete('/{id}', 'VeiculoController:deletar');
 
-})->add('UsuarioController:validarToken');
+});
 
 $app->group('/clientes', function() use ($app) {    
 
@@ -34,7 +38,7 @@ $app->group('/clientes', function() use ($app) {
     $app->put('/{id}','ClienteController:atualizar');
     $app->delete('/{id}', 'ClienteController:deletar');
 
-})->add('UsuarioController:validarToken');
+}); //->add('UsuarioController:validarToken');
 
 $app->group('/devolucoes', function() use ($app) {    
 
@@ -45,7 +49,7 @@ $app->group('/devolucoes', function() use ($app) {
     $app->put('/{id}','DevolucaoVeiculoController:atualizar');
     $app->delete('/{id}', 'DevolucaoVeiculoController:deletar');
 
-})->add('UsuarioController:validarToken');
+}); //->add('UsuarioController:validarToken');
 
 $app->group('/locacoes', function() use ($app) {    
 
@@ -67,7 +71,7 @@ $app->group('/reservas', function() use ($app) {
     $app->put('/{id}','ReservaVeiculoController:atualizar');
     $app->delete('/{id}', 'ReservaVeiculoController:deletar');
 
-})->add('UsuarioController:validarToken');
+}); //->add('UsuarioController:validarToken');
 
 $app->post("/usuarios", 'UsuarioController:inserir');
 $app->post("/auth", 'UsuarioController:autenticar');
