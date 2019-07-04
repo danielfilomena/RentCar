@@ -26,6 +26,7 @@ class UsuarioController{
     
     montarTabela(usuarios){
         var str=`
+        <br/>
             <table class="table table-striped">
                 <tr>
                     <th style='text-align: left;'>Código</th>
@@ -41,7 +42,7 @@ class UsuarioController{
                 <td>${usuarios[i].nome}</td>
                 <td>${usuarios[i].login}</td>
                 <th> 
-                    <a class="btn btn-xs btn-info" title="detalhes"><i class="glyphicon glyphicon-list"></i></a> 
+                    <a class="btn btn-xs btn-info" title="detalhes" data-acao="detalhes"><i class="glyphicon glyphicon-list"></i></a> 
                     <a class="btn btn-xs btn-warning" title="Alterar"><i class="glyphicon glyphicon-edit"></i></a>
                     <a class="btn btn-xs btn-danger" title="Excluir"><i class="glyphicon glyphicon-trash"></i></a>                     
                 <th>
@@ -50,7 +51,7 @@ class UsuarioController{
         } 
         str+= "</table>";
     
-        var tabela = document.querySelector("main");
+        var tabela = document.querySelector("#tabela");
         tabela.innerHTML = str;
     }
     

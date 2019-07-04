@@ -15,7 +15,8 @@
                 
                     $conexao = 'pgsql:host=localhost;dbname=RentCar;';                                      				    
                     $user = 'postgres';
-                    $pass = 'postgresql';
+                    //$pass = 'postgresql';
+                    $pass = 'admin';
 
                     $pdo = new PDO($conexao, $user, $pass);                     
 

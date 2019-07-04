@@ -1,48 +1,68 @@
 <!DOCTYPE html>
-<html lang="br">
-
+<html lang="pt-br">
 <head>
-
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link rel="stylesheet" href="\APP\Content\bootstrap.css">
     <link rel="stylesheet" href="\APP\Content\site.css">
-
     <title>RentCar</title>
-
 </head>
 
 <body>
-
+    
     <div class="container">
 
         <h1>Usuários</h1>
 
-        <button class="btn btn-success">
-            <i class="glyphicon glyphicon-plus"></i>
+        <hr>
+
+        <button id="btnNovo" class="btn btn-success" data-acao("Novo") >
+            <span class="glyphicon glyphicon-plus"></span>
             Novo Usuário
         </button>
 
-        <hr/>
-                    
-        <main>
+        <div class="modal fade" tabindex="-1" role="dialog" id="modalUser">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content" id="contentUser">
 
-        </main>
+                </div>
+            </div>
+        </div>
 
-        <hr/>
+        <div id="tabela"></div>
 
-        <footer class="footer">            
+        <hr>
+
+        <footer class="footer">
             Copyright &copy; 2019 RentCar
         </footer>
-
-    </div>
+        
+    </div>    
 
     <script src="\APP\Scripts\jquery-1.10.2.js"></script>
     <script src="\APP\Scripts\bootstrap.js"></script>
-    
-    <script src="\APP\Scripts\Entidades\Usuario.js"></script>
+
     <script src="\APP\Scripts\Controllers\UsuarioController.js"></script>
+    <script src="\APP\Scripts\Entidades\Usuario.js"></script>
     <script src="\APP\Scripts\Usuario.js"></script>
 
+    <script>
+
+        $("#btnNovo").click(function(){
+            $("#contentUser").load("/APP/Views/Usuario/Novo.html", function(){
+                $("#modalUser").modal({
+                    backdrop: 'static',
+                    keyboard: false,
+                    show: true
+                });
+            });
+        });            
+   
+    </script>
+
 </body>
+
+
+
 </html>
