@@ -17,7 +17,7 @@
 
         <hr>
 
-        <button id="btnNovo" class="btn btn-success" data-acao("Novo") >
+        <button id="btnNovo" class="btn btn-success" data-acao('novo')>
             <span class="glyphicon glyphicon-plus"></span>
             Novo Usuário
         </button>
@@ -30,7 +30,9 @@
             </div>
         </div>
 
-        <div id="tabela"></div>
+       <div id="gridUsuario">
+
+       </div>
 
         <hr>
 
@@ -44,11 +46,47 @@
     <script src="\APP\Scripts\bootstrap.js"></script>
 
     <script src="\APP\Scripts\Controllers\UsuarioController.js"></script>
+    <script src="\APP\Scripts\service\UsuarioHttpService.js"></script>
     <script src="\APP\Scripts\Entidades\Usuario.js"></script>
     <script src="\APP\Scripts\Usuario.js"></script>
 
     <script>
+        
+        function carregarTabela(usuarios){
+            
+            var str=`
+                    <br/>
+                    <table class="table table-striped">
+                        <tr>
+                            <th style='text-align: left;'>Código</th>
+                            <th style='text-align: left;'>Nome</th>
+                            <th style='text-align: left;'>Login</th>
+                            <th><th>
+                        </tr>`;
+    
+                    for(var i in usuarios){
+                        str+=`
+                            <tr>
+                                <td>${usuarios[i].id}</td>
+                                <td>${usuarios[i].nome}</td>
+                                <td>${usuarios[i].login}</td>
+                                <th> 
+                                    
+                                    <button class="btn btn-info" data-acao('detalhes')><i class="glyphicon glyphicon-list"></i></button>
 
+                                    <a class="btn btn-xs btn-info" title="detalhes" data-acao="detalhes"><i class="glyphicon glyphicon-list"></i></a> 
+                                    <a class="btn btn-xs btn-warning" title="Alterar"><i class="glyphicon glyphicon-edit"></i></a>
+                                    <a class="btn btn-xs btn-danger" title="Excluir"><i class="glyphicon glyphicon-trash"></i></a>                     
+                                <th>
+                            </tr>
+                        `;
+                    } 
+                str+= "</table>";
+    
+            var tabela = document.querySelector("#gridUsuario");
+            tabela.innerHTML = str;
+        } 
+             
         $("#btnNovo").click(function(){
             $("#contentUser").load("/APP/Views/Usuario/Novo.html", function(){
                 $("#modalUser").modal({

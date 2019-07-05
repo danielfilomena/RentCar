@@ -1,7 +1,30 @@
 class UsuarioController{
-    
+
+    usuarioService = new UsuarioHttpService();
+
     constructor(){
 
+    }
+
+    salvar(event){
+
+        var self = this;
+        event.preventDefault();
+        var usuario = new Usuario();
+        usuario.nome = document.querySelector("#nome").value;
+        usuario.login = document.querySelector("#login").value;
+        usuario.senha = document.querySelector("#senha").value;
+        
+        this.usuarioService.enviarUsuario(usuario,
+            (resposta, erro) => {
+                if(resposta){
+                    self.carregarUsuarios();
+                    //self.limparFormulario();
+                }
+                else if(erro){
+                    console.log("Erro: "+erro.msg);
+                }
+            });
     }
 
     CarregarUsuarios(){
@@ -14,45 +37,17 @@ class UsuarioController{
 
             if (this.readyState === 4 && this.status === 200) {
                 console.log(self);
-                self.montarTabela(JSON.parse(this.responseText));
+               //self.montarTabela(JSON.parse(this.responseText));
+               var usuarios = JSON.parse(this.responseText);
+               carregarTabela(usuarios);
+                              
             }
 
         };
 
         xhttp.open("GET", "http://localhost:8080/usuarios");
-        xhttp.send();
+        xhttp.send();        
+
     }
 
-    
-    montarTabela(usuarios){
-        var str=`
-        <br/>
-            <table class="table table-striped">
-                <tr>
-                    <th style='text-align: left;'>Código</th>
-                    <th style='text-align: left;'>Nome</th>
-                    <th style='text-align: left;'>Login</th>
-                    <th><th>
-                </tr>`;
-    
-        for(var i in usuarios){
-            str+=`
-                <tr>
-                <td>${usuarios[i].id}</td>
-                <td>${usuarios[i].nome}</td>
-                <td>${usuarios[i].login}</td>
-                <th> 
-                    <a class="btn btn-xs btn-info" title="detalhes" data-acao="detalhes"><i class="glyphicon glyphicon-list"></i></a> 
-                    <a class="btn btn-xs btn-warning" title="Alterar"><i class="glyphicon glyphicon-edit"></i></a>
-                    <a class="btn btn-xs btn-danger" title="Excluir"><i class="glyphicon glyphicon-trash"></i></a>                     
-                <th>
-                </tr>
-            `;
-        } 
-        str+= "</table>";
-    
-        var tabela = document.querySelector("#tabela");
-        tabela.innerHTML = str;
-    }
-    
 }
