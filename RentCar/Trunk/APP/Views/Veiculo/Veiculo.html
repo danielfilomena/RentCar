@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="\APP\Content\bootstrap.css">
+    <link rel="stylesheet" href="\APP\Content\site.css">
+    <title>RentCar</title>
+</head>
+
+<body>
+    
+    <div class="container">
+
+        <h1>Veículos</h1>
+
+        <hr>
+
+        <button id="btnNovo" class="btn btn-success" data-acao('novo')>
+            <span class="glyphicon glyphicon-plus"></span>
+            Novo Veículo
+        </button>
+
+        <div class="modal fade" tabindex="-1" role="dialog" id="modalUser">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content" id="contentUser">
+
+                </div>
+            </div>
+        </div>
+
+       <div id="gridVeiculo">
+
+       </div>
+
+        <hr>
+
+        <footer class="footer">
+            Copyright &copy; 2019 RentCar
+        </footer>
+        
+    </div>    
+
+    <script src="\APP\Scripts\jquery-1.10.2.js"></script>
+    <script src="\APP\Scripts\bootstrap.js"></script>
+
+    <script src="\APP\Scripts\Controllers\VeiculoController.js"></script>
+    <script src="\APP\Scripts\service\VeiculoHttpService.js"></script>
+    <script src="\APP\Scripts\Entidades\Veiculo.js"></script>
+    <script src="\APP\Scripts\Veiculo.js"></script>
+
+    <script>
+        
+        function carregarTabela(veiculos){
+            
+            var str=`
+                    <br/>
+                    <table class="table table-striped">
+                        <tr>
+                            <th style='text-align: left;'>Código</th>
+                            <th style='text-align: left;'>Marca</th>
+                            <th style='text-align: left;'>Modelo</th>
+                            <th style='text-align: left;'>Ano</th>
+                            <th style='text-align: left;'>Placa</th>
+                            <th><th>
+                        </tr>`;
+    
+                    for(var i in veiculos){
+                        str+=`
+                            <tr>
+                                <td>${veiculos[i].id}</td>
+                                <td>${veiculos[i].marca}</td>
+                                <td>${veiculos[i].modelo}</td>
+                                <td>${veiculos[i].ano}</td>
+                                <td>${veiculos[i].placa}</td>
+                                <th> 
+                                    
+                                    <button class="btn btn-info" data-acao('detalhes')><i class="glyphicon glyphicon-list"></i></button>
+
+                                    <a class="btn btn-xs btn-info" title="detalhes" data-acao="detalhes"><i class="glyphicon glyphicon-list"></i></a> 
+                                    <a class="btn btn-xs btn-warning" title="Alterar"><i class="glyphicon glyphicon-edit"></i></a>
+                                    <a class="btn btn-xs btn-danger" title="Excluir"><i class="glyphicon glyphicon-trash"></i></a>                     
+                                <th>
+                            </tr>
+                        `;
+                    } 
+                str+= "</table>";
+    
+            var tabela = document.querySelector("#gridVeiculo");
+            tabela.innerHTML = str;
+        } 
+             
+        $("#btnNovo").click(function(){
+            $("#contentUser").load("/APP/Views/Veiculo/Novo.html", function(){
+                $("#modalUser").modal({
+                    backdrop: 'static',
+                    keyboard: false,
+                    show: true
+                });
+            });
+        });            
+   
+    </script>
+
+</body>
+
+
+
+</html>
