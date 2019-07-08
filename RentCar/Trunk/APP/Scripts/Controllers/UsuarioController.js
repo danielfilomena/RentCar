@@ -18,7 +18,7 @@ class UsuarioController{
         this.usuarioService.enviarUsuario(usuario,
             (resposta, erro) => {
                 if(resposta){
-                    self.carregarUsuarios();
+                    self.CarregarUsuarios();
                     //self.limparFormulario();
                 }
                 else if(erro){

@@ -17,10 +17,37 @@
 
         <hr>
 
-        <button id="btnNovo" class="btn btn-success" data-acao('novo')>
-            <span class="glyphicon glyphicon-plus"></span>
-            Novo Usuário
-        </button>
+        <form id="formulario">
+
+            <div class="row">
+                
+                <div class="col-md-3">
+                    <label>Nome</label>
+                    <input type="text" id="nome" class="form-control">
+                </div>
+
+                <div class="col-md-3">
+                    <label>Login</label>
+                    <input type="text" id="login" class="form-control">
+                </div>
+            
+                <div class="col-md-3">
+                    <label>Senha</label>
+                    <input type="text" id="senha" class="form-control">
+                </div>
+
+            </div>
+
+            <br>
+
+            <button type="submit" class="btn btn-success">
+                <i class="glyphicon glyphicon-plus"></i>
+                Salvar
+            </button>
+
+        </form>
+
+        <hr>
 
         <div class="modal fade" tabindex="-1" role="dialog" id="modalUser">
             <div class="modal-dialog" role="document">
@@ -45,9 +72,9 @@
     <script src="\APP\Scripts\jquery-1.10.2.js"></script>
     <script src="\APP\Scripts\bootstrap.js"></script>
 
-    <script src="\APP\Scripts\Controllers\UsuarioController.js"></script>
-    <script src="\APP\Scripts\service\UsuarioHttpService.js"></script>
     <script src="\APP\Scripts\Entidades\Usuario.js"></script>
+    <script src="\APP\Scripts\service\UsuarioHttpService.js"></script>
+    <script src="\APP\Scripts\Controllers\UsuarioController.js"></script>0
     <script src="\APP\Scripts\Usuario.js"></script>
 
     <script>
@@ -71,12 +98,8 @@
                                 <td>${usuarios[i].nome}</td>
                                 <td>${usuarios[i].login}</td>
                                 <th> 
-                                    
-                                    <button class="btn btn-info" data-acao('detalhes')><i class="glyphicon glyphicon-list"></i></button>
-
-                                    <a class="btn btn-xs btn-info" title="detalhes" data-acao="detalhes"><i class="glyphicon glyphicon-list"></i></a> 
-                                    <a class="btn btn-xs btn-warning" title="Alterar"><i class="glyphicon glyphicon-edit"></i></a>
-                                    <a class="btn btn-xs btn-danger" title="Excluir"><i class="glyphicon glyphicon-trash"></i></a>                     
+                                    <a class="btn btn-xs btn-warning" title="Alterar" id="btnAlterar"><i class="glyphicon glyphicon-edit"></i></a>
+                                    <a class="btn btn-xs btn-danger" title="Excluir" id="btnExcluir"><i class="glyphicon glyphicon-trash"></i></a>                     
                                 <th>
                             </tr>
                         `;
@@ -95,12 +118,14 @@
                     show: true
                 });
             });
-        });            
+        });           
+        
+        $("#btnAlterar").click(function(){
+            alert('teste Alterar');
+        });
    
     </script>
 
 </body>
-
-
 
 </html>

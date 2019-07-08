@@ -19,11 +19,13 @@ class UsuarioHttpService{
             else if(this.readyState === 4 && this.status !== 201){                
                 callback(null,{msg:'Erro de statusCode'});    
             }
+            
         };
 
         xhttp.open("POST", "http://localhost:8080/usuarios", true);
         xhttp.setRequestHeader("Content-Type","application/json");
         xhttp.send(JSON.stringify(usuario));
+
     }
 
     carregarUsuarios(callback) {
