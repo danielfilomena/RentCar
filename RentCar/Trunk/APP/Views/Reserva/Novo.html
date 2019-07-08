@@ -14,9 +14,6 @@
            <label>Cliente</label>
                 <select name="cliente" id="cliente">
         <option value=""> --- selecione --- </option>
-    
-
-
         </div>
             </select> <br/>
         <div>
@@ -42,3 +39,57 @@
     <input type="submit" value="Salvar" class="btn btn-primary" id="btnSalvar">
 
 </div>
+
+ <script>
+        
+       CarregarClientes(){
+        
+        var self = this;
+        console.log("carregando clientes...");
+
+        var xhttp = new XMLHttpRequest();
+        xhttp.onreadystatechange = function() {
+
+            if (this.readyState === 4 && this.status === 200) {
+                console.log(self);
+               //self.montarTabela(JSON.parse(this.responseText));
+               var clientes = JSON.parse(this.responseText);
+               carregarTabela(clientes);
+                              
+            }
+
+        };
+
+        xhttp.open("GET", "http://localhost:8080/clientes");
+        xhttp.send();
+
+
+ CarregarVeiculos(){
+        
+        var self = this;
+        console.log("carregando veiculos...");
+
+        var xhttp = new XMLHttpRequest();
+        xhttp.onreadystatechange = function() {
+
+            if (this.readyState === 4 && this.status === 200) {
+                console.log(self);
+               //self.montarTabela(JSON.parse(this.responseText));
+               var veiculos = JSON.parse(this.responseText);
+               carregarTabela(veiculos);
+                              
+            }
+
+        };
+
+        xhttp.open("GET", "http://localhost:8080/veiculos");
+        xhttp.send();
+
+   
+    </script>
+
+</body>
+
+
+
+</html>
