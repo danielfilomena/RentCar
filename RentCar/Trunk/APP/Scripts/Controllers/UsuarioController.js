@@ -39,7 +39,7 @@ class UsuarioController{
                 console.log(self);
                //self.montarTabela(JSON.parse(this.responseText));
                var usuarios = JSON.parse(this.responseText);
-               carregarTabela(usuarios);
+               //carregarTabela(usuarios);
                               
             }
 

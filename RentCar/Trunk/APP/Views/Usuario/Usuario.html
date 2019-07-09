@@ -57,9 +57,25 @@
             </div>
         </div>
 
-       <div id="gridUsuario">
+        <table id="gridUsuario" class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Código</th>
+                    <th>Nome</th>
+                    <th>Login</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr id="dadosUsuario">
+                    <td>[[id]]</td>
+                    <td>[[nome]]</td>
+                    <td>[[login]]</td>
+                    <td>            <a class="btn btn-xs btn-warning" title="Alterar" data-acao="Alterar" id="btnAlterar"><i class="glyphicon glyphicon-edit"></i></a> </td>
+                </tr>
+            </tbody>
 
-       </div>
+        </table>
 
         <hr>
 
@@ -74,11 +90,20 @@
 
     <script src="\APP\Scripts\Entidades\Usuario.js"></script>
     <script src="\APP\Scripts\service\UsuarioHttpService.js"></script>
-    <script src="\APP\Scripts\Controllers\UsuarioController.js"></script>0
+    <script src="\APP\Scripts\Controllers\UsuarioController.js"></script>
     <script src="\APP\Scripts\Usuario.js"></script>
 
     <script>
-        
+
+        $(document).ready(function(){
+
+            var user = usuarios;
+
+            
+
+        });
+
+       /* 
         function carregarTabela(usuarios){
             
             var str=`
@@ -97,10 +122,10 @@
                                 <td>${usuarios[i].id}</td>
                                 <td>${usuarios[i].nome}</td>
                                 <td>${usuarios[i].login}</td>
-                                <th> 
-                                    <a class="btn btn-xs btn-warning" title="Alterar" id="btnAlterar"><i class="glyphicon glyphicon-edit"></i></a>
+                                <td> 
+                                    <a class="btn btn-xs btn-warning" title="Alterar" data-acao="Alterar"><i class="glyphicon glyphicon-edit"></i></a>
                                     <a class="btn btn-xs btn-danger" title="Excluir" id="btnExcluir"><i class="glyphicon glyphicon-trash"></i></a>                     
-                                <th>
+                                <td>
                             </tr>
                         `;
                     } 
@@ -108,7 +133,8 @@
     
             var tabela = document.querySelector("#gridUsuario");
             tabela.innerHTML = str;
-        } 
+        }
+        */ 
              
         $("#btnNovo").click(function(){
             $("#contentUser").load("/APP/Views/Usuario/Novo.html", function(){
@@ -121,7 +147,8 @@
         });           
         
         $("#btnAlterar").click(function(){
-            alert('teste Alterar');
+            
+            alert("Teste");
         });
    
     </script>
