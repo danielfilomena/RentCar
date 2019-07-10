@@ -8,6 +8,8 @@ class UsuarioController{
 
     salvar(event){
 
+        console.log("salvar");
+
         var self = this;
         event.preventDefault();
         var usuario = new Usuario();
@@ -19,12 +21,18 @@ class UsuarioController{
             (resposta, erro) => {
                 if(resposta){
                     self.CarregarUsuarios();
-                    //self.limparFormulario();
+                    self.limparFormulario();
                 }
                 else if(erro){
                     console.log("Erro: "+erro.msg);
                 }
             });
+    }
+
+    limparFormulario(){
+        document.querySelector("#nome").value="";
+        document.querySelector("#login").value="";
+        document.querySelector("#senha").value="";
     }
 
     CarregarUsuarios(){
@@ -39,13 +47,37 @@ class UsuarioController{
                 console.log(self);
                //self.montarTabela(JSON.parse(this.responseText));
                var usuarios = JSON.parse(this.responseText);
-               //carregarTabela(usuarios);
-                              
+               carregarTabela(usuarios);                              
             }
 
         };
 
         xhttp.open("GET", "http://localhost:8080/usuarios");
+        xhttp.send();        
+    }
+
+    alterarUsuario(codigo){
+
+        var self = this;
+        console.log("buscando usuários...");
+
+        var xhttp = new XMLHttpRequest();
+        xhttp.onreadystatechange = function() {
+
+            if (this.readyState === 4 && this.status === 200) {
+                console.log(self);
+               //self.montarTabela(JSON.parse(this.responseText));
+               var usuarios = JSON.parse(this.responseText);
+             
+               document.querySelector("#nome").value = usuario.nome;
+               document.querySelector("#login").value = usuario.login;
+               document.querySelector("#senha").value = usuario.senha;
+
+            }
+
+        };
+
+        xhttp.open("GET", "http://localhost:8080/usuarios/" + codigo);
         xhttp.send();        
 
     }

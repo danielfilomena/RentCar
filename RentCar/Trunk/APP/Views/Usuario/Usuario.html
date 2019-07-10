@@ -17,63 +17,64 @@
 
         <hr>
 
-        <form id="formulario">
-
-            <div class="row">
-                
-                <div class="col-md-3">
-                    <label>Nome</label>
-                    <input type="text" id="nome" class="form-control">
-                </div>
-
-                <div class="col-md-3">
-                    <label>Login</label>
-                    <input type="text" id="login" class="form-control">
-                </div>
-            
-                <div class="col-md-3">
-                    <label>Senha</label>
-                    <input type="text" id="senha" class="form-control">
-                </div>
-
-            </div>
-
-            <br>
-
-            <button type="submit" class="btn btn-success">
-                <i class="glyphicon glyphicon-plus"></i>
-                Salvar
-            </button>
-
-        </form>
+        <button class="btn btn-success" id="btnNovo">
+            <i class="glyphicon glyphicon-plus"></i>
+            Novo Usuário
+        </button>
 
         <hr>
 
         <div class="modal fade" tabindex="-1" role="dialog" id="modalUser">
             <div class="modal-dialog" role="document">
                 <div class="modal-content" id="contentUser">
+                        
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                <h4 class="modal-title">Usuários</h4>
+                            </div>
+                            <form id="formulario">
+                            
+                                <div class="modal-body">
+                                        
+                                        <div>
+                                            <label>Código</label>
+                                            <input id="codigo" type="text" class="form-control input-sm" disabled >
+                                        </div>
+
+                                        <div>
+                                            <label>Nome</label>
+                                            <input id="nome" type="text" class="form-control input-sm">
+                                        </div>
+                                
+                                        <div>
+                                            <label>Usuário</label>
+                                            <input id="login" type="text" class="form-control input-sm">
+                                        </div>
+                                
+                                        <div>
+                                            <label>Senha</label>
+                                            <input id="senha" type="password" class="form-control input-sm">
+                                        </div>
+                                                                                                
+                                </div>
+                            
+                            <div class="modal-footer">
+                            
+                                <input type="button" value="Cancelar" class="btn btn-default" data-dismiss="modal">
+                                <input type="submit" value="Salvar" class="btn btn-primary" id="btnSalvar">                            
+
+                            </div>
+
+                        </form>
 
                 </div>
             </div>
         </div>
 
-        <table id="gridUsuario" class="table table-striped">
-            <thead>
-                <tr>
-                    <th>Código</th>
-                    <th>Nome</th>
-                    <th>Login</th>
-                    <th></th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr id="dadosUsuario">
-                    <td>[[id]]</td>
-                    <td>[[nome]]</td>
-                    <td>[[login]]</td>
-                    <td>            <a class="btn btn-xs btn-warning" title="Alterar" data-acao="Alterar" id="btnAlterar"><i class="glyphicon glyphicon-edit"></i></a> </td>
-                </tr>
-            </tbody>
+        <div id="gridUsuario">
+            
+        </div>
+            
 
         </table>
 
@@ -94,16 +95,11 @@
     <script src="\APP\Scripts\Usuario.js"></script>
 
     <script>
-
-        $(document).ready(function(){
-
-            var user = usuarios;
-
-            
-
+        
+        $("#formulario").submit(function(){
+            $("#modalUser").modal('hide');            
         });
 
-       /* 
         function carregarTabela(usuarios){
             
             var str=`
@@ -122,9 +118,9 @@
                                 <td>${usuarios[i].id}</td>
                                 <td>${usuarios[i].nome}</td>
                                 <td>${usuarios[i].login}</td>
-                                <td> 
-                                    <a class="btn btn-xs btn-warning" title="Alterar" data-acao="Alterar"><i class="glyphicon glyphicon-edit"></i></a>
-                                    <a class="btn btn-xs btn-danger" title="Excluir" id="btnExcluir"><i class="glyphicon glyphicon-trash"></i></a>                     
+                                <td>                                    
+                                    <a class="btn btn-xs btn-warning" title="Alterar" onclick="alterar(${usuarios[i].id})"><i class="glyphicon glyphicon-edit"></i></a>
+                                    <a class="btn btn-xs btn-danger" title="Excluir" onclick="excluir(${usuarios[i].id})"><i class="glyphicon glyphicon-trash"></i></a>                     
                                 <td>
                             </tr>
                         `;
@@ -134,22 +130,49 @@
             var tabela = document.querySelector("#gridUsuario");
             tabela.innerHTML = str;
         }
-        */ 
-             
+                     
         $("#btnNovo").click(function(){
-            $("#contentUser").load("/APP/Views/Usuario/Novo.html", function(){
-                $("#modalUser").modal({
-                    backdrop: 'static',
-                    keyboard: false,
-                    show: true
-                });
-            });
-        });           
-        
-        $("#btnAlterar").click(function(){
             
-            alert("Teste");
-        });
+            $("#modalUser").modal({
+                backdrop: 'static',
+                keyboard: false,
+                show: true
+            });
+
+        });           
+                    
+        function alterar(e){
+            
+            var self = this;
+        console.log("buscando usuários...");
+
+        var xhttp = new XMLHttpRequest();
+        xhttp.onreadystatechange = function() {
+
+            if (this.readyState === 4 && this.status === 200) {
+                console.log(self);
+               //self.montarTabela(JSON.parse(this.responseText));
+               var usuarios = JSON.parse(this.responseText);
+             
+               document.querySelector("#nome").value = usuario.nome;
+               document.querySelector("#login").value = usuario.login;
+               document.querySelector("#senha").value = usuario.senha;
+
+            }
+
+        }
+
+        xhttp.open("GET", "http://localhost:8080/usuario/" + e);
+        xhttp.send();   
+
+
+            $("#modalUser").modal({
+                backdrop: 'static',
+                keyboard: false,
+                show: true
+            });
+                        
+        }
    
     </script>
 

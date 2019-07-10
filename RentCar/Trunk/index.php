@@ -74,8 +74,7 @@ $app->group('/reservas', function() use ($app) {
 }); //->add('UsuarioController:validarToken');
 
 $app->post("/usuarios", 'UsuarioController:inserir');
-$app->post("/auth", 'UsuarioController:autenticar');
-
+//$app->post("/auth", 'UsuarioController:autenticar');
 
 $app->run();
 ?>
