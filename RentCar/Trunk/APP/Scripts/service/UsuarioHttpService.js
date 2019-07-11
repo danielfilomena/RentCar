@@ -5,7 +5,7 @@ class UsuarioHttpService{
     }
 
     enviarUsuario(usuario, callback){
-        
+                      
         var self = this;
         var xhttp = new XMLHttpRequest();
 
@@ -22,10 +22,20 @@ class UsuarioHttpService{
             
         };
 
-        xhttp.open("POST", "http://localhost:8080/usuarios", true);
-        xhttp.setRequestHeader("Content-Type","application/json");
-        xhttp.send(JSON.stringify(usuario));
+        if(usuario.id == ""){
 
+            xhttp.open("POST", "http://localhost:8080/usuarios", true);
+            xhttp.setRequestHeader("Content-Type","application/json");
+            xhttp.send(JSON.stringify(usuario));
+        }
+        else{
+
+            xhttp.open("PUT", "http://localhost:8080/usuarios/" + usuario.id, true);
+            xhttp.setRequestHeader("Content-Type","application/json");
+            xhttp.send(JSON.stringify(usuario));
+
+        }
+        
     }
 
     carregarUsuarios(callback) {

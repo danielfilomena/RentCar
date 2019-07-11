@@ -16,6 +16,11 @@ $app = new \Slim\App;
 
 $app->group('/usuarios', function() use ($app){
     $app->get("", 'UsuarioController:listar');
+    //$app->post("", 'UsuarioController:inserir');
+
+    $app->get("/{id}", 'UsuarioController:buscarPorId');
+    $app->put('/{id}','UsuarioController:atualizar');
+    $app->delete('/{id}', 'UsuarioController:deletar');
 });
 
 $app->group('/veiculos', function() use ($app) {    

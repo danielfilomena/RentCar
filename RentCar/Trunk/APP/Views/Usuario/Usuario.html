@@ -97,7 +97,10 @@
     <script>
         
         $("#formulario").submit(function(){
-            $("#modalUser").modal('hide');            
+
+            $("#modalUser").modal('hide');       
+            CarregarUsuarios();     
+            
         });
 
         function carregarTabela(usuarios){
@@ -131,8 +134,8 @@
             tabela.innerHTML = str;
         }
                      
-        $("#btnNovo").click(function(){
-            
+        $("#btnNovo").click(function(){                        
+
             $("#modalUser").modal({
                 backdrop: 'static',
                 keyboard: false,
@@ -144,27 +147,26 @@
         function alterar(e){
             
             var self = this;
-        console.log("buscando usuários...");
+            console.log("buscando usuários..." + e);
 
-        var xhttp = new XMLHttpRequest();
-        xhttp.onreadystatechange = function() {
+            var xhttp = new XMLHttpRequest();
+            xhttp.onreadystatechange = function() {
 
-            if (this.readyState === 4 && this.status === 200) {
-                console.log(self);
-               //self.montarTabela(JSON.parse(this.responseText));
-               var usuarios = JSON.parse(this.responseText);
-             
-               document.querySelector("#nome").value = usuario.nome;
-               document.querySelector("#login").value = usuario.login;
-               document.querySelector("#senha").value = usuario.senha;
+                if (this.readyState === 4 && this.status === 200) {
+                    console.log(self);
+                    var usuarios = JSON.parse(this.responseText);
+                
+                    document.querySelector("#codigo").value = usuarios.id;
+                    document.querySelector("#nome").value = usuarios.nome;
+                    document.querySelector("#login").value = usuarios.login;
+                    document.querySelector("#senha").value = usuarios.senha;
 
-            }
+                }
 
-        }
+            }   
 
-        xhttp.open("GET", "http://localhost:8080/usuario/" + e);
-        xhttp.send();   
-
+            xhttp.open("GET", "http://localhost:8080/usuarios/" + e);
+            xhttp.send(); 
 
             $("#modalUser").modal({
                 backdrop: 'static',
@@ -173,7 +175,58 @@
             });
                         
         }
-   
+
+        function excluir(e){
+
+            var self = this;
+            console.log("excluindo usuários..." + e);
+
+            var xhttp = new XMLHttpRequest();
+            xhttp.onreadystatechange = function() {
+
+                if (this.readyState === 4 && this.status === 200) {
+                    console.log(self);
+                    var usuarios = JSON.parse(this.responseText);            
+                }
+
+            }   
+
+            xhttp.open("DELETE", "http://localhost:8080/usuarios/" + e);
+            xhttp.send(); 
+            
+            CarregarUsuarios();
+        }
+
+        function limparFormulario(){
+        
+            document.querySelector("#codigo").value="";
+            document.querySelector("#nome").value="";
+            document.querySelector("#login").value="";
+            document.querySelector("#senha").value="";
+        }
+
+        function CarregarUsuarios(){
+        
+            var self = this;
+            console.log("carregando usuários...");
+
+            var xhttp = new XMLHttpRequest();
+            xhttp.onreadystatechange = function() {
+
+                if (this.readyState === 4 && this.status === 200) {
+                    console.log(self);
+                    var usuarios = JSON.parse(this.responseText);
+                   carregarTabela(usuarios);                              
+               }
+
+            };
+
+            xhttp.open("GET", "http://localhost:8080/usuarios");
+            xhttp.send();        
+
+            limparFormulario();
+        }
+
     </script>
 
 </body>
