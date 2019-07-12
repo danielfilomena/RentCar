@@ -5,7 +5,7 @@ class VeiculoHttpService{
     }
 
     enviarVeiculo(veiculo, callback){
-        
+                      
         var self = this;
         var xhttp = new XMLHttpRequest();
 
@@ -22,16 +22,26 @@ class VeiculoHttpService{
             
         };
 
-        xhttp.open("POST", "http://localhost:8080/veiculos", true);
-        xhttp.setRequestHeader("Content-Type","application/json");
-        xhttp.send(JSON.stringify(veiculo));
+        if(veiculo.id == ""){
 
+            xhttp.open("POST", "http://localhost:8080/veiculos", true);
+            xhttp.setRequestHeader("Content-Type","application/json");
+            xhttp.send(JSON.stringify(veiculo));
+        }
+        else{
+
+            xhttp.open("PUT", "http://localhost:8080/veiculos/" + veiculo.id, true);
+            xhttp.setRequestHeader("Content-Type","application/json");
+            xhttp.send(JSON.stringify(veiculo));
+
+        }
+        
     }
 
     carregarVeiculos(callback) {
 
         var self = this;
-        console.log("carregando produtos ...");
+        console.log("carregando veiculos ...");
         var xhttp = new XMLHttpRequest();
   
         xhttp.onreadystatechange = function () {

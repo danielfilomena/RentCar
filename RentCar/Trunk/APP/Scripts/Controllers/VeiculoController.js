@@ -8,24 +8,38 @@ class VeiculoController{
 
     salvar(event){
 
+        console.log("salvar");
+
         var self = this;
         event.preventDefault();
         var veiculo = new Veiculo();
+        
+        veiculo.id = document.querySelector("#codigo").value;
         veiculo.marca = document.querySelector("#marca").value;
         veiculo.modelo = document.querySelector("#modelo").value;
         veiculo.ano = document.querySelector("#ano").value;
         veiculo.placa = document.querySelector("#placa").value;
         
-        this.veiculoService.enviarVeiculo(veiculo,
+        this.veiculoervice.enviarVeiculo(veiculo,
             (resposta, erro) => {
                 if(resposta){
+                    
                     self.CarregarVeiculos();
-                    //self.limparFormulario();
+                    self.limparFormulario();
                 }
                 else if(erro){
                     console.log("Erro: "+erro.msg);
                 }
             });
+    }
+
+    limparFormulario(){
+        
+        document.querySelector("#codigo").value="";
+        document.querySelector("#marca").value="";
+        document.querySelector("#modelo").value="";
+        document.querySelector("#ano").value="";
+        document.querySelector("#placa").value="";
     }
 
     CarregarVeiculos(){
@@ -40,15 +54,13 @@ class VeiculoController{
                 console.log(self);
                //self.montarTabela(JSON.parse(this.responseText));
                var veiculos = JSON.parse(this.responseText);
-               carregarTabela(veiculos);
-                              
+               carregarTabela(veiculos);                              
             }
 
         };
 
         xhttp.open("GET", "http://localhost:8080/veiculos");
         xhttp.send();        
-
     }
 
 }

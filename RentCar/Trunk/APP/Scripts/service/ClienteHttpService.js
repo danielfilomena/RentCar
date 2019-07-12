@@ -5,7 +5,7 @@ class ClienteHttpService{
     }
 
     enviarCliente(cliente, callback){
-        
+                      
         var self = this;
         var xhttp = new XMLHttpRequest();
 
@@ -22,16 +22,26 @@ class ClienteHttpService{
             
         };
 
-        xhttp.open("POST", "http://localhost:8080/clientes", true);
-        xhttp.setRequestHeader("Content-Type","application/json");
-        xhttp.send(JSON.stringify(cliente));
+        if(cliente.id == ""){
 
+            xhttp.open("POST", "http://localhost:8080/clientes", true);
+            xhttp.setRequestHeader("Content-Type","application/json");
+            xhttp.send(JSON.stringify(cliente));
+        }
+        else{
+
+            xhttp.open("PUT", "http://localhost:8080/clientes/" + cliente.id, true);
+            xhttp.setRequestHeader("Content-Type","application/json");
+            xhttp.send(JSON.stringify(cliente));
+
+        }
+        
     }
 
     carregarClientes(callback) {
 
         var self = this;
-        console.log("carregando produtos ...");
+        console.log("carregando clientes ...");
         var xhttp = new XMLHttpRequest();
   
         xhttp.onreadystatechange = function () {
