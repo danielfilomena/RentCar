@@ -1,17 +1,21 @@
-<?php
+<?php    
 
     class ReservaVeiculo {
         
         public $id;                
-        public $idVeiculo;
-        public $idCliente;
+        public $idveiculo;
+        public $veiculomodelo;
+        public $idcliente;
+        public $clientenome;
         public $dataretirada;        
 
-        function __construct($id, $idVeiculo, $idCliente, $dataretirada){
+        function __construct($id, $idVeiculo, $veiculoModelo, $idCliente, $clientenome, $dataretirada){
 
             $this->id = $id;
-            $this->idVeiculo = $idVeiculo;
-            $this->idCliente = $idCliente;
+            $this->idveiculo = $idVeiculo;
+            $this->veiculomodelo = $veiculoModelo;
+            $this->idcliente = $idCliente;
+            $this->clientenome = $clientenome;
             $this->dataretirada = $dataretirada;
             
         

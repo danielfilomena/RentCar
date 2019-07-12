@@ -46,13 +46,25 @@
 
         public function listar()
         {
-		    $query = "SELECT * FROM reserva";
+		    $query = "SELECT 
+                        reservaid,
+                        veiculo.veiculoid veiculoid,
+                        veiculo.veiculomodelo veiculomodelo,
+                        cliente.clienteid clienteid,
+                        cliente.clientenome clientenome,
+                        to_char(dataretirada, 'DD/MM/YYYY') dataretirada
+                     FROM 
+                        RESERVA
+                     INNER JOIN 
+                        VEICULO ON reserva.veiculoid = veiculo.veiculoid
+                    INNER JOIN 
+                        CLIENTE ON reserva.clienteid = cliente.clienteid";
     		$pdo = PDOFactory::getConexao();
 	    	$comando = $pdo->prepare($query);
     		$comando->execute();
             $reserva=array();	
 		    while($row = $comando->fetch(PDO::FETCH_OBJ)){
-			    $reserva[] = new ReservaVeiculo($row->reservaid, $row->veiculoid, $row->clienteid, $row->dataretirada);
+			    $reserva[] = new ReservaVeiculo($row->reservaid, $row->veiculoid, $row->veiculomodelo, $row->clienteid, $row->clientenome, $row->dataretirada);
             }
             return $reserva;
         }

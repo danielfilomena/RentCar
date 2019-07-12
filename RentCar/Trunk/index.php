@@ -70,7 +70,7 @@ $app->group('/locacoes', function() use ($app) {
 $app->group('/reservas', function() use ($app) {    
 
     $app->get("", 'ReservaVeiculoController:listar');
-    $app->post("", 'ReservaVeiculoController:inserir');
+    //$app->post("", 'ReservaVeiculoController:inserir');
 
     $app->get('/{id}','ReservaVeiculoController:buscarPorId');
     $app->put('/{id}','ReservaVeiculoController:atualizar');

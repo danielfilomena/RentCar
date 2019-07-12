@@ -1,5 +1,8 @@
 <?php
 
+include_once './APP/Models/Cliente.php';
+include_once './APP/Models/Veiculo.php';
+
 include_once './APP/Models/ReservaVeiculo.php';
 include_once './APP/PDO/ReservaVeiculoDAO.php';
 
