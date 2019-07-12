@@ -17,22 +17,66 @@
 
         <hr>
 
-        <button id="btnNovo" class="btn btn-success" data-acao('novo')>
-            <span class="glyphicon glyphicon-plus"></span>
+        <button class="btn btn-success" id="btnNovo">
+            <i class="glyphicon glyphicon-plus"></i>
             Novo Cliente
         </button>
+
+        <hr>
 
         <div class="modal fade" tabindex="-1" role="dialog" id="modalUser">
             <div class="modal-dialog" role="document">
                 <div class="modal-content" id="contentUser">
+                        
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                <h4 class="modal-title">Clientes</h4>
+                            </div>
+                            <form id="formulario">
+                            
+                                <div class="modal-body">
+                                        
+                                        <div>
+                                            <label>Código</label>
+                                            <input id="codigo" type="text" class="form-control input-sm" disabled >
+                                        </div>
+
+                                        <div>
+                                            <label>Nome</label>
+                                            <input id="nome" type="text" class="form-control input-sm">
+                                        </div>
+                                
+                                        <div>
+                                            <label>CNH</label>
+                                            <input id="cnh" type="text" class="form-control input-sm">
+                                        </div>
+                                
+                                        <div>
+                                            <label>Endereço</label>
+                                            <input id="endereco" type="text" class="form-control input-sm">
+                                        </div>
+                                                                                                
+                                </div>
+                            
+                            <div class="modal-footer">
+                            
+                                <input type="button" value="Cancelar" class="btn btn-default" data-dismiss="modal">
+                                <input type="submit" value="Salvar" class="btn btn-primary" id="btnSalvar">                            
+
+                            </div>
+
+                        </form>
 
                 </div>
             </div>
         </div>
 
-       <div id="gridCliente">
+        <div id="gridCliente">
+            
+        </div>
+            
 
-       </div>
+        </table>
 
         <hr>
 
@@ -45,13 +89,20 @@
     <script src="\APP\Scripts\jquery-1.10.2.js"></script>
     <script src="\APP\Scripts\bootstrap.js"></script>
 
-    <script src="\APP\Scripts\Controllers\ClienteController.js"></script>
-    <script src="\APP\Scripts\service\ClienteHttpService.js"></script>
     <script src="\APP\Scripts\Entidades\Cliente.js"></script>
+    <script src="\APP\Scripts\service\ClienteHttpService.js"></script>
+    <script src="\APP\Scripts\Controllers\ClienteController.js"></script>
     <script src="\APP\Scripts\Cliente.js"></script>
 
     <script>
         
+        $("#formulario").submit(function(){
+
+            $("#modalUser").modal('hide');       
+            CarregarClientes();     
+            
+        });
+
         function carregarTabela(clientes){
             
             var str=`
@@ -61,7 +112,7 @@
                             <th style='text-align: left;'>Código</th>
                             <th style='text-align: left;'>Nome</th>
                             <th style='text-align: left;'>CNH</th>
-                            <th style='text-align: left;'>Endereço</th>
+                            th style='text-align: left;'>Endereço</th>
                             <th><th>
                         </tr>`;
     
@@ -72,14 +123,10 @@
                                 <td>${clientes[i].nome}</td>
                                 <td>${clientes[i].cnh}</td>
                                 <td>${clientes[i].endereco}</td>
-                                <th> 
-                                    
-                                    <button class="btn btn-info" data-acao('detalhes')><i class="glyphicon glyphicon-list"></i></button>
-
-                                    <a class="btn btn-xs btn-info" title="detalhes" data-acao="detalhes"><i class="glyphicon glyphicon-list"></i></a> 
-                                    <a class="btn btn-xs btn-warning" title="Alterar"><i class="glyphicon glyphicon-edit"></i></a>
-                                    <a class="btn btn-xs btn-danger" title="Excluir"><i class="glyphicon glyphicon-trash"></i></a>                     
-                                <th>
+                                <td>                                    
+                                    <a class="btn btn-xs btn-warning" title="Alterar" onclick="alterar(${clientes[i].id})"><i class="glyphicon glyphicon-edit"></i></a>
+                                    <a class="btn btn-xs btn-danger" title="Excluir" onclick="excluir(${clientes[i].id})"><i class="glyphicon glyphicon-trash"></i></a>                     
+                                <td>
                             </tr>
                         `;
                     } 
@@ -87,22 +134,103 @@
     
             var tabela = document.querySelector("#gridCliente");
             tabela.innerHTML = str;
-        } 
-             
-        $("#btnNovo").click(function(){
-            $("#contentUser").load("/APP/Views/Cliente/Novo.html", function(){
-                $("#modalUser").modal({
-                    backdrop: 'static',
-                    keyboard: false,
-                    show: true
-                });
+        }
+                     
+        $("#btnNovo").click(function(){                        
+
+            $("#modalUser").modal({
+                backdrop: 'static',
+                keyboard: false,
+                show: true
             });
-        });            
-   
+
+        });           
+                    
+        function alterar(e){
+            
+            var self = this;
+            console.log("buscando clientes..." + e);
+
+            var xhttp = new XMLHttpRequest();
+            xhttp.onreadystatechange = function() {
+
+                if (this.readyState === 4 && this.status === 200) {
+                    console.log(self);
+                    var clientes = JSON.parse(this.responseText);
+                
+                    document.querySelector("#codigo").value = clientes.id;
+                    document.querySelector("#nome").value = clientes.nome;
+                    document.querySelector("#cnh").value = clientes.cnh;
+                    document.querySelector("#endereco").value = clientes.endereco;
+
+                }
+
+            }   
+
+            xhttp.open("GET", "http://localhost:8080/clientes/" + e);
+            xhttp.send(); 
+
+            $("#modalUser").modal({
+                backdrop: 'static',
+                keyboard: false,
+                show: true
+            });
+                        
+        }
+
+        function excluir(e){
+
+            var self = this;
+            console.log("excluindo clientes..." + e);
+
+            var xhttp = new XMLHttpRequest();
+            xhttp.onreadystatechange = function() {
+
+                if (this.readyState === 4 && this.status === 200) {
+                    console.log(self);
+                    var clientes = JSON.parse(this.responseText);            
+                }
+
+            }   
+
+            xhttp.open("DELETE", "http://localhost:8080/clientes/" + e);
+            xhttp.send(); 
+            
+            CarregarClientes();
+        }
+
+        function limparFormulario(){
+        
+            document.querySelector("#codigo").value="";
+            document.querySelector("#nome").value="";
+            document.querySelector("#cnh").value="";
+            document.querySelector("#endereco").value="";
+        }
+
+        function CarregarClientes(){
+        
+            var self = this;
+            console.log("carregando clientes...");
+
+            var xhttp = new XMLHttpRequest();
+            xhttp.onreadystatechange = function() {
+
+                if (this.readyState === 4 && this.status === 200) {
+                    console.log(self);
+                    var clientes = JSON.parse(this.responseText);
+                   carregarTabela(clientes);                              
+               }
+
+            };
+
+            xhttp.open("GET", "http://localhost:8080/clientes");
+            xhttp.send();        
+
+            limparFormulario();
+        }
+
     </script>
 
 </body>
-
-
 
 </html>
