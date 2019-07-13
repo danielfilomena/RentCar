@@ -20,7 +20,7 @@ class VeiculoController{
         veiculo.ano = document.querySelector("#ano").value;
         veiculo.placa = document.querySelector("#placa").value;
         
-        this.veiculoervice.enviarVeiculo(veiculo,
+        this.veiculoService.enviarVeiculo(veiculo,
             (resposta, erro) => {
                 if(resposta){
                     

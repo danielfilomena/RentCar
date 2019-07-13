@@ -1,4 +1,4 @@
-class CienteController{
+class ClienteController{
 
     clienteService = new ClienteHttpService();
 
