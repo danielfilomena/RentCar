@@ -1,8 +1,10 @@
 <?php
 
+include_once './APP/Models/Cliente.php';
+include_once './APP/Models/Veiculo.php';
+
 include_once './APP/Models/LocacaoVeiculo.php';
 include_once './APP/PDO/LocacaoVeiculoDAO.php';
-
 
 class LocacaoVeiculoController {
 
@@ -22,13 +24,14 @@ class LocacaoVeiculoController {
         $locacao = $dao->buscarPorId($id);
         
         return $response->withJson($locacao);
+
     }
 
     public function inserir( $request, $response, $args) {
 
-        $var = $request->getParsedBody();        
-        $locacao = new LocacaoVeiculo(0, $var["idVeiculo"], $var["idCliente"], $var["dataretirada"], $var["datadevolucao"], $var["valor"], $var["formapagamento"]);
-
+        $var = $request->getParsedBody();
+        $locacao = new LocacaoVeiculo(0, $var["idVeiculo"], $var["veiculoModelo"], $var["idCliente"], $var["clienteNome"], $var["dataretirada"], $var["datadevolucao"], $var["valor"], $var["formadepagamento"]);
+    
         $dao = new LocacaoVeiculoDAO;
         $locacao = $dao->inserir($locacao);
     
@@ -39,8 +42,9 @@ class LocacaoVeiculoController {
 
         $id = $args['id'];
         $var = $request->getParsedBody();
-        $locacao = new LocacaoVeiculo($id, $var["idVeiculo"], $var["idCliente"], $var["dataretirada"], $var["datadevolucao"], $var["valor"], $var["formapagamento"]);
-
+        
+        $locacao = new LocacaoVeiculo($id, $var["idVeiculo"], $var["veiculoModelo"], $var["idCliente"], $var["clienteNome"], $var["dataretirada"], $var["datadevolucao"], $var["valor"]), $var["formadepagamento"];);
+        
         $dao = new LocacaoVeiculoDAO;
         $locacao = $dao->atualizar($locacao);
     
@@ -56,5 +60,6 @@ class LocacaoVeiculoController {
         $locacao = $dao->deletar($id);
     
         return $response->withJson($locacao);  
+
     }
 }

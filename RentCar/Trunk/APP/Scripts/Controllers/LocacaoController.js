@@ -11,18 +11,18 @@ class LocacaoController{
         var self = this;
         event.preventDefault();
         var locacao = new Locacao();
-        locacao.veiculo = document.querySelector("#veiculo").value;
-        locacao.cliente = document.querySelector("#cliente").value;
-        locacao.dataretirada = document.querySelector("#dataretirada").value;
-        locacao.datadevolucao = document.querySelector("#datadevolucao").value;
-        locacao.valor = document.querySelector("#valor").value;
-        locacao.formapagamento = document.querySelector("#formapagamento").value;
+        locacao.id = document.querySelector("#codigo").value;
+        locacao.idVeiculo = document.querySelector("#selectVeiculo").value;
+        locacao.idCliente = document.querySelector("#selectCliente").value;
+        locacao.dataretirada = document.querySelector("#data").value;
+        locacao.dataretirada = document.querySelector("#data").value;
+        locacao.dataretirada = document.querySelector("#valor").value;
+        locacao.dataretirada = document.querySelector("#formadepagamento").value;
         
         this.locacaoService.enviarLocacao(locacao,
             (resposta, erro) => {
                 if(resposta){
-                    self.CarregarLocacao();
-                    //self.limparFormulario();
+                    self.CarregarLocacao();            
                 }
                 else if(erro){
                     console.log("Erro: "+erro.msg);
@@ -30,7 +30,7 @@ class LocacaoController{
             });
     }
 
-    CarregarLocacao(){
+    Carregarlocacoes(){
         
         var self = this;
         console.log("carregando locacoes...");
@@ -40,16 +40,16 @@ class LocacaoController{
 
             if (this.readyState === 4 && this.status === 200) {
                 console.log(self);
-               //self.montarTabela(JSON.parse(this.responseText));
                var locacoes = JSON.parse(this.responseText);
-               carregarTabela(locacoes);
-                              
+               carregarTabela(locacoes);               
             }
 
         };
 
         xhttp.open("GET", "http://localhost:8080/locacoes");
         xhttp.send();        
+
+        CarregarLocacao();
 
     }
 

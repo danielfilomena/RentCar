@@ -5,7 +5,7 @@ class LocacaoHttpService{
     }
 
     enviarLocacao(locacao, callback){
-        
+                      
         var self = this;
         var xhttp = new XMLHttpRequest();
 
@@ -22,10 +22,20 @@ class LocacaoHttpService{
             
         };
 
-        xhttp.open("POST", "http://localhost:8080/locacoes", true);
-        xhttp.setRequestHeader("Content-Type","application/json");
-        xhttp.send(JSON.stringify(locacao));
+       if(locacao.id == ""){
 
+            xhttp.open("POST", "http://localhost:8080/locacoes", true);
+            xhttp.setRequestHeader("Content-Type","application/json");
+            xhttp.send(JSON.stringify(locacao));
+        }
+        else{
+
+            xhttp.open("PUT", "http://localhost:8080/locacoes/" + locacao.id, true);
+            xhttp.setRequestHeader("Content-Type","application/json");
+            xhttp.send(JSON.stringify(locacao));
+
+        }
+        
     }
 
     carregarLocacoes(callback) {
@@ -47,4 +57,6 @@ class LocacaoHttpService{
         xhttp.open("GET", "http://localhost:8080/locacoes", true);
         xhttp.send();
     }
+    
+
 }

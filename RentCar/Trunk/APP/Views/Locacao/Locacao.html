@@ -13,51 +13,82 @@
     
     <div class="container">
 
-        <h1>Usuários</h1>
+        <h1>Locações</h1>
 
         <hr>
 
-        <form id="formulario">
+        <button id="btnNovo" class="btn btn-success">
+            <span class="glyphicon glyphicon-plus"></span>
+            Nova Locação
+        </button>
 
-            <div class="row">
-                
-                <div class="col-md-3">
-                    <label>Nome</label>
-                    <input type="text" id="nome" class="form-control">
-                </div>
-
-                <div class="col-md-3">
-                    <label>Login</label>
-                    <input type="text" id="login" class="form-control">
-                </div>
-            
-                <div class="col-md-3">
-                    <label>Senha</label>
-                    <input type="text" id="senha" class="form-control">
-                </div>
-
-            </div>
-
-            <br>
-
-            <button type="submit" class="btn btn-success">
-                <i class="glyphicon glyphicon-plus"></i>
-                Salvar
-            </button>
-
-        </form>
-
-        <hr>
-
-        <div class="modal fade" tabindex="-1" role="dialog" id="modalUser">
+        <div class="modal fade" tabindex="-1" role="dialog" id="modalLocacao">
             <div class="modal-dialog" role="document">
-                <div class="modal-content" id="contentUser">
+                <div class="modal-content" id="conteudoLocacao">
+                        
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                <h4 class="modal-title">Locação</h4>
+                            </div>
+                            <form id="formulario">
+                            
+                                <div class="modal-body">
+                                        
+                                        <div>
+                                            <label>Código</label>
+                                            <input id="codigo" type="text" class="form-control input-sm" disabled >
+                                        </div>
+
+                                        <div>
+                                            <label>Veículo</label>
+                                            <select class="form-control input-sm" id="selectVeiculo">
+                                            
+                                            </select>
+                                        </div>
+                                
+                                        <div>
+                                            <label>Cliente</label>
+                                            <select class="form-control input-sm" id="selectCliente">                                                                                        
+                                            </select>
+                                        </div>
+                                
+                                         <div>
+                                            <label>Data Retirada</label>
+                                            <input id="data" type="text" class="form-control input-sm">
+                                        </div>
+
+                                        <div>
+                                            <label>Data Devolução</label>
+                                            <input id="data" type="text" class="form-control input-sm">
+                                        </div>
+                                        
+                                        <div>
+                                            <label>Valor</label>
+                                            <input id="data" type="text" class="form-control input-sm">
+                                        </div>
+
+                                        <div>
+                                            <label>Forma de Pagamento</label>
+                                            <input id="data" type="text" class="form-control input-sm">
+                                        </div>
+                                        
+                                                                                                
+                                </div>
+                            
+                            <div class="modal-footer">
+                            
+                                <input type="button" value="Cancelar" class="btn btn-default" data-dismiss="modal" onclick="limparFormulario()">
+                                <input type="submit" value="Salvar" class="btn btn-primary" id="btnSalvar">                            
+
+                            </div>
+
+                        </form>
 
                 </div>
             </div>
         </div>
 
-       <div id="gridUsuario">
+       <div id="gridLocacao">
 
        </div>
 
@@ -72,58 +103,235 @@
     <script src="\APP\Scripts\jquery-1.10.2.js"></script>
     <script src="\APP\Scripts\bootstrap.js"></script>
 
-    <script src="\APP\Scripts\Entidades\Usuario.js"></script>
-    <script src="\APP\Scripts\service\UsuarioHttpService.js"></script>
-    <script src="\APP\Scripts\Controllers\UsuarioController.js"></script>0
-    <script src="\APP\Scripts\Usuario.js"></script>
+    <script src="\APP\Scripts\Controllers\LocacaoController.js"></script>
+    <script src="\APP\Scripts\service\LocacaoHttpService.js"></script>
+    <script src="\APP\Scripts\Entidades\Locacao.js"></script>
+    <script src="\APP\Scripts\Locacao.js"></script>
 
     <script>
-        
-        function carregarTabela(usuarios){
+
+        $("#btnNovo").click(function(){                                                                                    
             
+            CarregarCliente();
+            CarregarVeiculos();
+
+            $("#modalLocacao").modal({
+                backdrop: 'static',
+                keyboard: false,
+                show: true
+            });
+
+        });          
+
+        $("#formulario").submit(function(){
+
+            $("#modalLocacao").modal('hide');
+            CarregarLocacoes();
+
+        });
+        
+        function carregarTabela(locacoes){                        
+
             var str=`
                     <br/>
                     <table class="table table-striped">
                         <tr>
                             <th style='text-align: left;'>Código</th>
-                            <th style='text-align: left;'>Nome</th>
-                            <th style='text-align: left;'>Login</th>
+                            <th style='text-align: left;'>Veículo</th>
+                            <th style='text-align: left;'>Cliente</th>
+                            <th style='text-align: left;'>DataRetirada</th>
+                            <th style='text-align: left;'>DataDevolucao</th>
+                            <th style='text-align: left;'>Valor</th>
+                            <th style='text-align: left;'>FormadePagamento</th>
                             <th><th>
                         </tr>`;
     
-                    for(var i in usuarios){
+                    for(var i in locacoes){
                         str+=`
                             <tr>
-                                <td>${usuarios[i].id}</td>
-                                <td>${usuarios[i].nome}</td>
-                                <td>${usuarios[i].login}</td>
-                                <th> 
-                                    <a class="btn btn-xs btn-warning" title="Alterar" id="btnAlterar"><i class="glyphicon glyphicon-edit"></i></a>
-                                    <a class="btn btn-xs btn-danger" title="Excluir" id="btnExcluir"><i class="glyphicon glyphicon-trash"></i></a>                     
+                                <td>${locacoes[i].id}</td>
+                                <td>${locacoes[i].clienteNome}</td>
+                                <td>${locacoes[i].veiculoModelo}</td>                                
+                                <td>${locacoes[i].dataretirada}</td>
+                                <td>${locacoes[i].datadevolucao}</td>
+                                <td>${locacoes[i].valor}</td>
+                                <td>${locacoes[i].formadepagamento}</td>
+                                <th>                                     
+                                    <a class="btn btn-xs btn-warning" title="Alterar" onclick="alterar(${locacacoes[i].id})"><i class="glyphicon glyphicon-edit"></i></a>
+                                    <a class="btn btn-xs btn-danger" title="Excluir" onclick="excluir(${locacacoes[i].id})"><i class="glyphicon glyphicon-trash"></i></a>                     
                                 <th>
                             </tr>
                         `;
                     } 
                 str+= "</table>";
     
-            var tabela = document.querySelector("#gridUsuario");
+            var tabela = document.querySelector("#gridLocacao");
             tabela.innerHTML = str;
-        } 
-             
-        $("#btnNovo").click(function(){
-            $("#contentUser").load("/APP/Views/Usuario/Novo.html", function(){
-                $("#modalUser").modal({
-                    backdrop: 'static',
-                    keyboard: false,
-                    show: true
-                });
+
+        };
+
+        function limparFormulario(){
+
+            document.querySelector("#codigo").value="";
+            document.querySelector("#selectVeiculo").value="";
+            document.querySelector("#selectCliente").value="";                        
+            document.querySelector("#dataretirada").value="";
+            document.querySelector("#datadevolucao").value="";
+            document.querySelector("#valor").value="";
+            document.querySelector("#formadepagamento").value="";
+
+        }
+
+        function alterar(e){
+            
+            CarregarVeiculos();
+            CarregarCliente();
+            
+            var self = this;
+            console.log("alterando locacao..." + e);
+
+            var xhttp = new XMLHttpRequest();
+            xhttp.onreadystatechange = function(){
+
+                if(this.readyState === 4 && this.status === 200){
+                    console.log(self);
+                    var locacao = JSON.parse(this.responseText);
+
+                    document.querySelector("#codigo").value = locacao.id;                
+                    document.getSelection("#selectVeiculo").value = locacao.idVeiculo;
+                    document.querySelector("#selectCliente").value = locacao.idCliente;
+                    document.querySelector("#data").value = locacao.dataretirada;
+                    document.querySelector("#data").value = locacao.datadevolucao;
+                    document.querySelector("#valor").value = locacao.valor;
+                    document.querySelector("#formadepagamento").value = locacao.formadepagamento;
+
+                }
+
+            }
+
+            xhttp.open("GET", "http://localhost:8080/locacoes/" + e);
+            xhttp.send();
+
+            $("#modalLocacao").modal({
+                backdrop: 'static',
+                keyboard: false,
+                show: true
             });
-        });           
+
+        }
         
-        $("#btnAlterar").click(function(){
-            alert('teste Alterar');
-        });
-   
+        function excluir(e){
+
+            var self = this;
+            console.log("excluindo locacao..." + e);
+
+            var xhttp = new XMLHttpRequest();
+            xhttp.onreadystatechange = function() {
+
+                if (this.readyState === 4 && this.status === 200) {
+                    console.log(self);
+                    var locacao = JSON.parse(this.responseText);            
+                }
+
+            }   
+
+            xhttp.open("DELETE", "http://localhost:8080/locacoes/" + e);
+            xhttp.send(); 
+            
+            CarregarLocacoes();
+        }
+
+        function carregarComboClientes(clientes){
+
+            var str = "<option>Selecione um cliente...</option>";
+
+            for(var i in clientes){
+                str += "<option value='" + clientes[i].id + "'>" + clientes[i].nome + "</option>";
+            }
+
+            var sel = document.querySelector("#selectCliente");
+            sel.innerHTML = str;
+
+        }
+
+        function CarregarCliente(){
+        
+            var self = this;
+            console.log("carregando clientes...");
+
+            var xhttp = new XMLHttpRequest();
+            xhttp.onreadystatechange = function() {
+
+                if (this.readyState === 4 && this.status === 200) {
+                    console.log(self);
+                var clientes = JSON.parse(this.responseText);
+                carregarComboClientes(clientes);               
+                }
+
+            };
+
+            xhttp.open("GET", "http://localhost:8080/clientes");
+            xhttp.send();        
+
+        }
+
+        function carregarComboVeiculos(veiculos){
+
+            var str = "<option>Selecione um veículo...</option>";
+
+            for(var i in veiculos){
+                str += "<option value='" + veiculos[i].id + "'>" + veiculos[i].modelo + "</option>";
+            }
+
+            var sel = document.querySelector("#selectVeiculo");
+            sel.innerHTML = str;
+
+        }
+
+        function CarregarVeiculos(){
+
+            var self = this;
+            console.log("carregando Veiculos...");
+
+            var xhttp = new XMLHttpRequest();
+            xhttp.onreadystatechange = function() {
+
+                if (this.readyState === 4 && this.status === 200) {
+                    console.log(self);
+                var veiculos = JSON.parse(this.responseText);
+                carregarComboVeiculos(veiculos);               
+                }
+
+            };
+
+            xhttp.open("GET", "http://localhost:8080/veiculos");
+            xhttp.send();        
+
+        }
+
+        function CarregarLocacoes(){
+        
+            var self = this;
+            console.log("carregando locacoes...");
+
+            var xhttp = new XMLHttpRequest();
+            xhttp.onreadystatechange = function() {
+
+                if (this.readyState === 4 && this.status === 200) {
+                    console.log(self);
+                var locacoes = JSON.parse(this.responseText);
+                carregarTabela(locacoes);               
+                }
+
+            };
+
+            xhttp.open("GET", "http://localhost:8080/locacoes");
+            xhttp.send();       
+            
+            limparFormulario();
+
+        }
+
     </script>
 
 </body>
