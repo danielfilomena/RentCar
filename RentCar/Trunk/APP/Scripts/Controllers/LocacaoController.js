@@ -15,9 +15,9 @@ class LocacaoController{
         locacao.idVeiculo = document.querySelector("#selectVeiculo").value;
         locacao.idCliente = document.querySelector("#selectCliente").value;
         locacao.dataretirada = document.querySelector("#data").value;
-        locacao.dataretirada = document.querySelector("#data").value;
-        locacao.dataretirada = document.querySelector("#valor").value;
-        locacao.dataretirada = document.querySelector("#formadepagamento").value;
+        locacao.datadevolucao = document.querySelector("#data").value;
+        locacao.valor = document.querySelector("#valor").value;
+        locacao.formadepagamento = document.querySelector("#formadepagamento").value;
         
         this.locacaoService.enviarLocacao(locacao,
             (resposta, erro) => {

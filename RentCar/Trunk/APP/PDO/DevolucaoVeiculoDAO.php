@@ -1,27 +1,26 @@
 <?php
-
+    
     include_once './APP/Models/DevolucaoVeiculo.php';
-	include_once './APP/PDO/PDOFactory.php';
+    include_once './APP/PDO/PDOFactory.php';
 
     class DevolucaoVeiculoDAO
     {
         public function inserir(DevolucaoVeiculo $devolucao)
         {
-            
-            $qInserir = "INSERT INTO devolucao(veiculoid, clienteid, datadevolucao, tanque, avaria, valortotal) VALUES (:idVeiculo, :idCliente, :datadevolucao, :tanque, :avaria, :valortotal)";
+            $qInserir = "INSERT INTO devolucao(veiculoid, clienteid, datadevolucao, tanque, avaria, valortotal) VALUES(:idveiculo, :idcliente, :datadevolucao, :tanque, :avaria, :valortotal)";            
             $pdo = PDOFactory::getConexao();
-            $comando = $pdo->prepare($qInserir);
-            $comando->bindParam(":idVeiculo",$devolucao->idVeiculo);
-            $comando->bindParam(":idCliente",$devolucao->idCliente);
-            $comando->bindParam(":datadevolucao",$devolucao->dataDevolucao);
-            $comando->bindParam(":tanque",$devolucao->tanque);
-            $comando->bindParam(":avaria",$devolucao->avaria);
-            $comando->bindParam(":valortotal",$devolucao->valortotal);
-            
+            $comando = $pdo->prepare($qInserir);            
+            $comando->bindParam(":idveiculo", $devolucao->idVeiculo);
+            //$comando->bindParam(":veiculomodelo", $devolucao->veiculoModelo);
+            $comando->bindParam(":idcliente", $devolucao->idCliente);
+            //$comando->bindParam(":clientenome", $devolucao->clienteNome);
+            $comando->bindParam(":datadevolucao", $devolucao->datadevolucao);
+            $comando->bindParam(":tanque", $devolucao->tanque);
+            $comando->bindParam(":avaria", $devolucao->avaria);
+            $comando->bindParam(":valortotal", $devolucao->valortotal);                        
             $comando->execute();
             $devolucao->id = $pdo->lastInsertId();
             return $devolucao;
-
         }
 
         public function deletar($id)
@@ -37,46 +36,71 @@
 
         public function atualizar(DevolucaoVeiculo $devolucao)
         {
-            $qAtualizar = "UPDATE devolucao SET veiculoid=:idVeiculo, clienteid=:idCliente, datadevolucao=:dataDevolucao, tanque=:tanque, avaria=:avaria, valortotal=:valortotal WHERE devolucaoid=:id";
-            
+
+            $qAtualizar = "UPDATE devolucao SET veiculoid=:idveiculo, clienteid=:idcliente, datadevolucao=:datadevolucao, tanque=:tanque, avaria=:avaria, valortotal=:valortotal WHERE devolucaoid=:id";            
             $pdo = PDOFactory::getConexao();
             $comando = $pdo->prepare($qAtualizar);
-            
-            $comando->bindParam(":idVeiculo",$devolucao->idVeiculo);
-            $comando->bindParam(":idCliente",$devolucao->idCliente);
-            $comando->bindParam(":dataDevolucao",$devolucao->dataDevolucao);
-            $comando->bindParam(":tanque",$devolucao->tanque);            
-            $comando->bindParam(":avaria",$devolucao->avaria);
-            $comando->bindParam(":valortotal",$devolucao->valortotal);
+            $comando->bindParam(":idveiculo", $devolucao->idVeiculo);
+            $comando->bindParam(":idcliente", $devolucao->idCliente);
+            $comando->bindParam(":datadevolucao", $devolucao->datadevolucao);
+            $comando->bindParam(":tanque", $devolucao->tanque);
+            $comando->bindParam(":avaria", $devolucao->avaria);
+            $comando->bindParam(":valortotal", $devolucao->valortotal);
             $comando->bindParam(":id",$devolucao->id);
             $comando->execute();
+            return $devolucao;   
 
-            return $devolucao;        
         }
 
         public function listar()
         {
-		    $query = "SELECT * FROM devolucao";
-    		$pdo = PDOFactory::getConexao();
-	    	$comando = $pdo->prepare($query);
-    		$comando->execute();
-            $devolucao=array();	
-		    while($row = $comando->fetch(PDO::FETCH_OBJ)){
-			    $devolucao[] = new DevolucaoVeiculo($row->devolucaoid,$row->veiculoid,$row->clienteid,$row->datadevolucao,$row->tanque,$row->avaria,$row->valortotal);
+            $query = "SELECT 
+                        devolucaoid,
+                        veiculo.veiculoid veiculoid,
+                        veiculo.veiculomodelo veiculoModelo,
+                        cliente.clienteid clienteid,
+                        cliente.clientenome clienteNome,
+                        to_char(dataretirada, 'DD/MM/YYYY') datadevolucao
+                     FROM 
+                        DEVOLUCAO
+                     INNER JOIN 
+                        VEICULO ON devolucao.veiculoid = veiculo.veiculoid
+                    INNER JOIN 
+                        CLIENTE ON devolucao.clienteid = cliente.clienteid";
+            $pdo = PDOFactory::getConexao();
+            $comando = $pdo->prepare($query);
+            $comando->execute();
+            $devolucao=array();   
+            while($row = $comando->fetch(PDO::FETCH_OBJ)){
+                $devolucao[] = new DevolucaoVeiculo($row->devolucaoid, $row->veiculoid, $row->veiculomodelo, $row->clienteid, $row->clientenome, $row->datadevolucao, $row->tanque, $row->avaria, $row->valortotal);
             }
             return $devolucao;
         }
 
         public function buscarPorId($id)
         {
- 		    $query = "SELECT * FROM devolucao WHERE devolucaoid=:id";		
+            $query = "SELECT 
+                        devolucaoid,
+                        veiculo.veiculoid veiculoid,
+                        veiculo.veiculomodelo veiculoModelo,
+                        cliente.clienteid clienteid,
+                        cliente.clientenome clienteNome,
+                        to_char(dataretirada, 'DD/MM/YYYY') datadevolucao
+                    FROM 
+                        DEVOLUCAO
+                    INNER JOIN 
+                        VEICULO ON devolucao.veiculoid = veiculo.veiculoid
+                    INNER JOIN 
+                        CLIENTE ON devolucao.clienteid = cliente.clienteid  
+                    WHERE devolucaoid=:id";       
+
             $pdo = PDOFactory::getConexao(); 
-		    $comando = $pdo->prepare($query);
-		    $comando->bindParam (':id', $id);
-		    $comando->execute();
-		    $result = $comando->fetch(PDO::FETCH_OBJ);
-		    return new DevolucaoVeiculo($result->devolucaoid, $result->veiculoid, $result->clienteid, $result->datadevolucao, $result->tanque, $result->avaria, $result->valortotal);
+            $comando = $pdo->prepare($query);
+            $comando->bindParam (':id', $id);
+            $comando->execute();
+            $result = $comando->fetch(PDO::FETCH_OBJ);
+            return new DevolucaoVeiculo($result->devolucaoid, $result->veiculoid, $result->veiculomodelo, $result->clienteid, $result->clientenome, $result->datadevolucao, $result->tanque, $result->avaria, $result->valortotal,);
+            
         }
-                        							    
     }
 ?>

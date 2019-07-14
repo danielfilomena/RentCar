@@ -11,18 +11,18 @@ class DevolucaoController{
         var self = this;
         event.preventDefault();
         var devolucao = new Devolucao();
-        devolucao.veiculo = document.querySelector("#veiculo").value;
-        devolucao.cliente = document.querySelector("#cliente").value;
-        devolucao.datadevolucao = document.querySelector("#datadevolucao").value;
+        devolucao.id = document.querySelector("#codigo").value;
+        devolucao.idVeiculo = document.querySelector("#selectVeiculo").value;
+        devolucao.idCliente = document.querySelector("#selectCliente").value;
+        devolucao.datadevolucao = document.querySelector("#data").value;
         devolucao.tanque = document.querySelector("#tanque").value;
         devolucao.avaria = document.querySelector("#avaria").value;
-        devolucao.valortotal = document.querySelector("#valortotal").value;
+        devolucao.valortotal = document.querySelector("#dvalortotal").value;
         
         this.devolucaoService.enviarDevolucao(devolucao,
             (resposta, erro) => {
                 if(resposta){
-                    self.CarregarDevolucao();
-                    //self.limparFormulario();
+                    self.CarregarDevolucao();            
                 }
                 else if(erro){
                     console.log("Erro: "+erro.msg);
@@ -30,7 +30,7 @@ class DevolucaoController{
             });
     }
 
-    CarregarDevolucao(){
+    Carregardevolucoes(){
         
         var self = this;
         console.log("carregando devolucoes...");
@@ -40,16 +40,16 @@ class DevolucaoController{
 
             if (this.readyState === 4 && this.status === 200) {
                 console.log(self);
-               //self.montarTabela(JSON.parse(this.responseText));
                var devolucoes = JSON.parse(this.responseText);
-               carregarTabela(devolucoes);
-                              
+               carregarTabela(devolucoes);               
             }
 
         };
 
         xhttp.open("GET", "http://localhost:8080/devolucoes");
         xhttp.send();        
+
+        CarregarDevolucao();
 
     }
 

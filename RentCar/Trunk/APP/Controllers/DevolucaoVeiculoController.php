@@ -1,10 +1,7 @@
 <?php
 
-//include_once './APP/Models/Veiculo.php';
-//include_once './APP/PDO/VeiculoDAO.php';
-
-//include_once './APP/Models/Cliente.php';
-//include_once './APP/PDO/ClienteDAO.php';
+include_once './APP/Models/Cliente.php';
+include_once './APP/Models/Veiculo.php';
 
 include_once './APP/Models/DevolucaoVeiculo.php';
 include_once './APP/PDO/DevolucaoVeiculoDAO.php';
@@ -16,15 +13,14 @@ class DevolucaoVeiculoController {
         $dao= new DevolucaoVeiculoDAO;    
         $devolucao =  $dao->listar();
                 
-        return $response->withJson($devolucao);    
-
+        return $response->withJson($devolucaoo);    
     }
     
     public function buscarPorId($request, $response, $args) {
 
         $id = $args['id'];
         
-        $dao= new DevolucaoVeiculoDAO;    
+        $dao= new DevolucaoeiculoDAO;    
         $devolucao = $dao->buscarPorId($id);
         
         return $response->withJson($devolucao);
@@ -34,21 +30,21 @@ class DevolucaoVeiculoController {
     public function inserir( $request, $response, $args) {
 
         $var = $request->getParsedBody();
-        $devolucao = new DevolucaoVeiculo(0, $var["idVeiculo"], $var["idCliente"], $var["dataDevolucao"], $var["tanque"], $var["avaria"], $var["valortotal"]);
-                
+        $devolucao = new DevolucaoVeiculo(0, $var["idVeiculo"], $var["veiculoModelo"], $var["idCliente"], $var["clienteNome"], $var["datadevolucao"], $var["tanque"], $var["avaria"], $var["avaria"], $var["valortotal"]);
+    
         $dao = new DevolucaoVeiculoDAO;
         $devolucao = $dao->inserir($devolucao);
     
-        return $response->withJson($devolucao, 201);    
-
+        return $response->withJson($devolucao,201);    
     }
     
     public function atualizar($request, $response, $args) {
 
         $id = $args['id'];
         $var = $request->getParsedBody();
-        $devolucao = new DevolucaoVeiculo($id, $var["idVeiculo"], $var["idCliente"], $var["dataDevolucao"], $var["tanque"], $var["avaria"], $var["valortotal"]);        
-
+        
+        $devolucao = new DevolucaoVeiculo($id, $var["idVeiculo"], $var["veiculoModelo"], $var["idCliente"], $var["clienteNome"], $var["datadevolucao"], $var["tanque"], $var["avaria"]), $var["valortotal"]);
+        
         $dao = new DevolucaoVeiculoDAO;
         $devolucao = $dao->atualizar($devolucao);
     
@@ -61,9 +57,9 @@ class DevolucaoVeiculoController {
         $id = $args['id'];
 
         $dao = new DevolucaoVeiculoDAO;
-        $devolucaoveiculo = $dao->deletar($id);
+        $devolucao = $dao->deletar($id);
     
-        return $response->withJson($devolucaoveiculo);  
+        return $response->withJson($devolucao);  
 
     }
 }

@@ -5,7 +5,7 @@ class DevolucaoHttpService{
     }
 
     enviarDevolucao(devolucao, callback){
-        
+                      
         var self = this;
         var xhttp = new XMLHttpRequest();
 
@@ -22,10 +22,20 @@ class DevolucaoHttpService{
             
         };
 
-        xhttp.open("POST", "http://localhost:8080/devolucoes", true);
-        xhttp.setRequestHeader("Content-Type","application/json");
-        xhttp.send(JSON.stringify(devolucao));
+       if(devolucao.id == ""){
 
+            xhttp.open("POST", "http://localhost:8080/devolucoes", true);
+            xhttp.setRequestHeader("Content-Type","application/json");
+            xhttp.send(JSON.stringify(devolucao));
+        }
+        else{
+
+            xhttp.open("PUT", "http://localhost:8080/devolucoes/" + devolucao.id, true);
+            xhttp.setRequestHeader("Content-Type","application/json");
+            xhttp.send(JSON.stringify(devolucao));
+
+        }
+        
     }
 
     carregarDevolucoes(callback) {
@@ -47,4 +57,6 @@ class DevolucaoHttpService{
         xhttp.open("GET", "http://localhost:8080/devolucoes", true);
         xhttp.send();
     }
+    
+
 }
