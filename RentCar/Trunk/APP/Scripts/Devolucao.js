@@ -2,7 +2,7 @@ var devolucaoController = new DevolucaoController();
 
 //load
 var body = document.querySelector("body");
-body.onload = devolucaoController.CarregarDevolucoes.bind(devolucaoController);
+body.onload = devolucaoController.Carregardevolucoes.bind(devolucaoController);
 
 //salvar
 var form = document.querySelector('#formulario');

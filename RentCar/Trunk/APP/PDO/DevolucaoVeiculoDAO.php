@@ -10,9 +10,9 @@
             $qInserir = "INSERT INTO devolucao(veiculoid, clienteid, datadevolucao, tanque, avaria, valortotal) VALUES(:idveiculo, :idcliente, :datadevolucao, :tanque, :avaria, :valortotal)";            
             $pdo = PDOFactory::getConexao();
             $comando = $pdo->prepare($qInserir);            
-            $comando->bindParam(":idveiculo", $devolucao->idVeiculo);
-            $comando->bindParam(":idcliente", $devolucao->idCliente);
-            $comando->bindParam(":datadevolucao", $devolucao->datadevolucao);
+            $comando->bindParam(":idveiculo", $devolucao->veiculoId);
+            $comando->bindParam(":idcliente", $devolucao->clienteId);
+            $comando->bindParam(":datadevolucao", $devolucao->dataDevolucao);
             $comando->bindParam(":tanque", $devolucao->tanque);
             $comando->bindParam(":avaria", $devolucao->avaria);
             $comando->bindParam(":valortotal", $devolucao->valortotal);                        
@@ -35,12 +35,12 @@
         public function atualizar(DevolucaoVeiculo $devolucao)
         {
 
-            $qAtualizar = "UPDATE devolucao SET veiculoid=:idveiculo, clienteid=:idcliente, datadevolucao=:datadevolucao, tanque=:tanque, avaria=:avaria, valortotal=:valortotal WHERE devolucaoid=:id";            
+            $qAtualizar = "UPDATE devolucao SET veiculoid=:veiculoid, clienteid=:clienteid, datadevolucao=:datadevolucao, tanque=:tanque, avaria=:avaria, valortotal=:valortotal WHERE devolucaoid=:id";            
             $pdo = PDOFactory::getConexao();
             $comando = $pdo->prepare($qAtualizar);
-            $comando->bindParam(":idveiculo", $devolucao->idVeiculo);
-            $comando->bindParam(":idcliente", $devolucao->idCliente);
-            $comando->bindParam(":datadevolucao", $devolucao->datadevolucao);
+            $comando->bindParam(":veiculoid", $devolucao->veiculoId);
+            $comando->bindParam(":clienteid", $devolucao->clienteId);
+            $comando->bindParam(":datadevolucao", $devolucao->dataDevolucao);
             $comando->bindParam(":tanque", $devolucao->tanque);
             $comando->bindParam(":avaria", $devolucao->avaria);
             $comando->bindParam(":valortotal", $devolucao->valortotal);
@@ -55,10 +55,13 @@
             $query = "SELECT 
                         devolucaoid,
                         veiculo.veiculoid veiculoid,
-                        veiculo.veiculomodelo veiculoModelo,
+                        veiculo.veiculomodelo veiculomodelo,
                         cliente.clienteid clienteid,
-                        cliente.clientenome clienteNome,
-                        to_char(dataretirada, 'DD/MM/YYYY') datadevolucao
+                        cliente.clientenome clientenome,
+                        to_char(datadevolucao, 'DD/MM/YYYY') datadevolucao,
+                        tanque,
+                        avaria,
+                        valortotal
                      FROM 
                         DEVOLUCAO
                      INNER JOIN 
@@ -80,10 +83,13 @@
             $query = "SELECT 
                         devolucaoid,
                         veiculo.veiculoid veiculoid,
-                        veiculo.veiculomodelo veiculoModelo,
+                        veiculo.veiculomodelo veiculomodelo,
                         cliente.clienteid clienteid,
-                        cliente.clientenome clienteNome,
-                        to_char(dataretirada, 'DD/MM/YYYY') datadevolucao
+                        cliente.clientenome clientenome,
+                        to_char(datadevolucao, 'DD/MM/YYYY') datadevolucao,
+                        tanque,
+                        avaria,
+                        valortotal
                     FROM 
                         DEVOLUCAO
                     INNER JOIN 
@@ -97,7 +103,7 @@
             $comando->bindParam (':id', $id);
             $comando->execute();
             $result = $comando->fetch(PDO::FETCH_OBJ);
-            return new DevolucaoVeiculo($result->devolucaoid, $result->veiculoid, $result->veiculomodelo, $result->clienteid, $result->clientenome, $result->datadevolucao, $result->tanque, $result->avaria, $result->valortotal,);
+            return new DevolucaoVeiculo($result->devolucaoid, $result->veiculoid, $result->veiculomodelo, $result->clienteid, $result->clientenome, $result->datadevolucao, $result->tanque, $result->avaria, $result->valortotal);
             
         }
     }

@@ -54,22 +54,22 @@
                                 
                                         <div>
                                             <label>Data Devolução</label>
-                                            <input id="data" type="text" class="form-control input-sm">
+                                            <input id="dataDevolucao" type="text" class="form-control input-sm">
                                         </div>
                                         
                                         <div>
                                             <label>Tanque</label>
-                                            <input id="data" type="text" class="form-control input-sm">
+                                            <input id="tanque" type="text" class="form-control input-sm">
                                         </div>
 
                                         <div>
                                             <label>Avaria</label>
-                                            <input id="data" type="text" class="form-control input-sm">
+                                            <input id="avaria" type="text" class="form-control input-sm">
                                         </div>
                                         
                                         <div>
                                             <label>Valor Total</label>
-                                            <input id="data" type="text" class="form-control input-sm">
+                                            <input id="valortotal" type="text" class="form-control input-sm">
                                         </div>
                                                                                                 
                                 </div>
@@ -125,11 +125,11 @@
         $("#formulario").submit(function(){
 
             $("#modalDevolucao").modal('hide');
-            CarregarDevolucoes();
+            carregarDevolucao();
 
         });
         
-        function carregarTabela(Devolucoes){                        
+        function carregarTabela(devolucoes){                        
 
             var str=`
                     <br/>
@@ -151,7 +151,7 @@
                                 <td>${devolucoes[i].id}</td>
                                 <td>${devolucoes[i].clienteNome}</td>
                                 <td>${devolucoes[i].veiculoModelo}</td>                                
-                                <td>${devolucoes[i].datadevolucao}</td>
+                                <td>${devolucoes[i].dataDevolucao}</td>
                                 <td>${devolucoes[i].tanque}</td>
                                 <td>${devolucoes[i].avaria}</td>
                                 <td>${devolucoes[i].valortotal}</td>
@@ -174,7 +174,7 @@
             document.querySelector("#codigo").value="";
             document.querySelector("#selectVeiculo").value="";
             document.querySelector("#selectCliente").value="";                        
-            document.querySelector("#datadevolucao").value="";
+            document.querySelector("#dataDevolucao").value="";
             document.querySelector("#tanque").value="";
             document.querySelector("#tanque").avaria="";
             document.querySelector("#valortotal").value="";
@@ -197,12 +197,12 @@
                     var devolucao = JSON.parse(this.responseText);
 
                     document.querySelector("#codigo").value = devolucao.id;                
-                    document.getSelection("#selectVeiculo").value = devolucao.idVeiculo;
-                    document.querySelector("#selectCliente").value = devolucao.idCliente;
-                    document.querySelector("#data").value = devolucao.datadevolucao;
-                    document.querySelector("#valor").value = devolucao.tanque;
-                    document.querySelector("#valor").value = devolucao.avaria;
-                    document.querySelector("#formadepagamento").value = devolucao.valortotal;
+                    document.getSelection("#selectVeiculo").value = devolucao.veiculoId;
+                    document.querySelector("#selectCliente").value = devolucao.clienteId;
+                    document.querySelector("#dataDevolucao").value = devolucao.dataDevolucao;
+                    document.querySelector("#tanque").value = devolucao.tanque;
+                    document.querySelector("#avaria").value = devolucao.avaria;
+                    document.querySelector("#valortotal").value = devolucao.valortotal;
 
                 }
 
@@ -237,7 +237,7 @@
             xhttp.open("DELETE", "http://localhost:8080/devolucoes/" + e);
             xhttp.send(); 
             
-            CarregarDevolucoes();
+            carregarDevolucao();
         }
 
         function carregarComboClientes(clientes){
@@ -308,7 +308,7 @@
 
         }
 
-        function CarregarDevolucoes(){
+        function carregarDevolucao(){
         
             var self = this;
             console.log("carregando devolucoes...");
