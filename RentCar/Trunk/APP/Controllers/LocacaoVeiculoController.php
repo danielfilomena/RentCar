@@ -30,7 +30,7 @@ class LocacaoVeiculoController {
     public function inserir( $request, $response, $args) {
 
         $var = $request->getParsedBody();
-        $locacao = new LocacaoVeiculo(0, $var["idVeiculo"], $var["veiculoModelo"], $var["idCliente"], $var["clienteNome"], $var["dataretirada"], $var["datadevolucao"], $var["valor"], $var["formadepagamento"]);
+        $locacao = new LocacaoVeiculo(0, $var["veiculoId"], $var["veiculoModelo"], $var["clienteId"], $var["clienteNome"], $var["dataRetirada"], $var["dataDevolucao"], $var["valor"], $var["formaPagamento"]);
     
         $dao = new LocacaoVeiculoDAO;
         $locacao = $dao->inserir($locacao);
@@ -42,9 +42,8 @@ class LocacaoVeiculoController {
 
         $id = $args['id'];
         $var = $request->getParsedBody();
-        
-        $locacao = new LocacaoVeiculo($id, $var["idVeiculo"], $var["veiculoModelo"], $var["idCliente"], $var["clienteNome"], $var["dataretirada"], $var["datadevolucao"], $var["valor"]), $var["formadepagamento"];);
-        
+        $locacao = new LocacaoVeiculo($id, $var["veiculoId"], $var["veiculoModelo"], $var["clienteId"], $var["clienteNome"], $var["dataRetirada"], $var["dataDevolucao"], $var["valor"], $var["formaPagamento"]);
+                        
         $dao = new LocacaoVeiculoDAO;
         $locacao = $dao->atualizar($locacao);
     

@@ -43,7 +43,7 @@ class DevolucaoVeiculoController {
         $id = $args['id'];
         $var = $request->getParsedBody();
         
-        $devolucao = new DevolucaoVeiculo($id, $var["idVeiculo"], $var["veiculoModelo"], $var["idCliente"], $var["clienteNome"], $var["datadevolucao"], $var["tanque"], $var["avaria"]), $var["valortotal"]);
+        //$devolucao = new DevolucaoVeiculo($id, $var["idVeiculo"], $var["idCliente"], $var["datadevolucao"], $var["tanque"], $var["avaria"]), $var["valortotal"]);
         
         $dao = new DevolucaoVeiculoDAO;
         $devolucao = $dao->atualizar($devolucao);

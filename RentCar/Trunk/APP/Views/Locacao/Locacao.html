@@ -54,22 +54,22 @@
                                 
                                          <div>
                                             <label>Data Retirada</label>
-                                            <input id="data" type="text" class="form-control input-sm">
+                                            <input id="dataRetirada" type="text" class="form-control input-sm">
                                         </div>
 
                                         <div>
                                             <label>Data Devolução</label>
-                                            <input id="data" type="text" class="form-control input-sm">
+                                            <input id="dataDevolucao" type="text" class="form-control input-sm">
                                         </div>
                                         
                                         <div>
                                             <label>Valor</label>
-                                            <input id="data" type="text" class="form-control input-sm">
+                                            <input id="valor" type="text" class="form-control input-sm">
                                         </div>
 
                                         <div>
                                             <label>Forma de Pagamento</label>
-                                            <input id="data" type="text" class="form-control input-sm">
+                                            <input id="formaPagamento" type="text" class="form-control input-sm">
                                         </div>
                                         
                                                                                                 
@@ -137,12 +137,12 @@
                     <table class="table table-striped">
                         <tr>
                             <th style='text-align: left;'>Código</th>
-                            <th style='text-align: left;'>Veículo</th>
                             <th style='text-align: left;'>Cliente</th>
-                            <th style='text-align: left;'>DataRetirada</th>
-                            <th style='text-align: left;'>DataDevolucao</th>
+                            <th style='text-align: left;'>Veículo</th>
+                            <th style='text-align: left;'>Data Retirada</th>
+                            <th style='text-align: left;'>Data Devolucao</th>
                             <th style='text-align: left;'>Valor</th>
-                            <th style='text-align: left;'>FormadePagamento</th>
+                            <th style='text-align: left;'>Forma Pagamento</th>
                             <th><th>
                         </tr>`;
     
@@ -152,13 +152,13 @@
                                 <td>${locacoes[i].id}</td>
                                 <td>${locacoes[i].clienteNome}</td>
                                 <td>${locacoes[i].veiculoModelo}</td>                                
-                                <td>${locacoes[i].dataretirada}</td>
-                                <td>${locacoes[i].datadevolucao}</td>
+                                <td>${locacoes[i].dataRetirada}</td>
+                                <td>${locacoes[i].dataDevolucao}</td>
                                 <td>${locacoes[i].valor}</td>
-                                <td>${locacoes[i].formadepagamento}</td>
+                                <td>${locacoes[i].formaPagamento}</td>
                                 <th>                                     
-                                    <a class="btn btn-xs btn-warning" title="Alterar" onclick="alterar(${locacacoes[i].id})"><i class="glyphicon glyphicon-edit"></i></a>
-                                    <a class="btn btn-xs btn-danger" title="Excluir" onclick="excluir(${locacacoes[i].id})"><i class="glyphicon glyphicon-trash"></i></a>                     
+                                    <a class="btn btn-xs btn-warning" title="Alterar" onclick="alterar(${locacoes[i].id})"><i class="glyphicon glyphicon-edit"></i></a>
+                                    <a class="btn btn-xs btn-danger" title="Excluir" onclick="excluir(${locacoes[i].id})"><i class="glyphicon glyphicon-trash"></i></a>                     
                                 <th>
                             </tr>
                         `;
@@ -175,10 +175,10 @@
             document.querySelector("#codigo").value="";
             document.querySelector("#selectVeiculo").value="";
             document.querySelector("#selectCliente").value="";                        
-            document.querySelector("#dataretirada").value="";
-            document.querySelector("#datadevolucao").value="";
+            document.querySelector("#dataRetirada").value="";
+            document.querySelector("#dataDevolucao").value="";
             document.querySelector("#valor").value="";
-            document.querySelector("#formadepagamento").value="";
+            document.querySelector("#formaPagamento").value="";
 
         }
 
@@ -198,12 +198,12 @@
                     var locacao = JSON.parse(this.responseText);
 
                     document.querySelector("#codigo").value = locacao.id;                
-                    document.getSelection("#selectVeiculo").value = locacao.idVeiculo;
-                    document.querySelector("#selectCliente").value = locacao.idCliente;
-                    document.querySelector("#data").value = locacao.dataretirada;
-                    document.querySelector("#data").value = locacao.datadevolucao;
+                    document.getSelection("#selectVeiculo").value = locacao.veiculoId;
+                    document.querySelector("#selectCliente").value = locacao.clienteId;
+                    document.querySelector("#dataRetirada").value = locacao.dataRetirada;
+                    document.querySelector("#dataDevolucao").value = locacao.dataDevolucao;
                     document.querySelector("#valor").value = locacao.valor;
-                    document.querySelector("#formadepagamento").value = locacao.formadepagamento;
+                    document.querySelector("#formaPagamento").value = locacao.formaPagamento;
 
                 }
 

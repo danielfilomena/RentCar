@@ -11,9 +11,7 @@
             $pdo = PDOFactory::getConexao();
             $comando = $pdo->prepare($qInserir);            
             $comando->bindParam(":idveiculo", $devolucao->idVeiculo);
-            //$comando->bindParam(":veiculomodelo", $devolucao->veiculoModelo);
             $comando->bindParam(":idcliente", $devolucao->idCliente);
-            //$comando->bindParam(":clientenome", $devolucao->clienteNome);
             $comando->bindParam(":datadevolucao", $devolucao->datadevolucao);
             $comando->bindParam(":tanque", $devolucao->tanque);
             $comando->bindParam(":avaria", $devolucao->avaria);

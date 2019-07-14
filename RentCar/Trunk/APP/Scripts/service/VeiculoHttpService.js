@@ -40,10 +40,10 @@ class VeiculoHttpService{
 
     limparFormulario(){
 
-        document.getSelection("#codigo").value="";
-        document.getSelection("#selectVeiculo").value="";
-        document.getSelection("#selectCliente").value="";                        
-        document.getSelection("#data").value="";
+        document.querySelector("#codigo").value="";
+        document.querySelector("#selectVeiculo").value="";
+        document.querySelector("#selectCliente").value="";                        
+        document.querySelector("#data").value="";
 
     }
 

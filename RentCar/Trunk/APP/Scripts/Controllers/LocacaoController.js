@@ -12,12 +12,12 @@ class LocacaoController{
         event.preventDefault();
         var locacao = new Locacao();
         locacao.id = document.querySelector("#codigo").value;
-        locacao.idVeiculo = document.querySelector("#selectVeiculo").value;
-        locacao.idCliente = document.querySelector("#selectCliente").value;
-        locacao.dataretirada = document.querySelector("#data").value;
-        locacao.datadevolucao = document.querySelector("#data").value;
+        locacao.veiculoId = document.querySelector("#selectVeiculo").value;
+        locacao.clienteId = document.querySelector("#selectCliente").value;
+        locacao.dataRetirada = document.querySelector("#dataRetirada").value;
+        locacao.dataDevolucao = document.querySelector("#dataDevolucao").value;
         locacao.valor = document.querySelector("#valor").value;
-        locacao.formadepagamento = document.querySelector("#formadepagamento").value;
+        locacao.formaPagamento = document.querySelector("#formaPagamento").value;
         
         this.locacaoService.enviarLocacao(locacao,
             (resposta, erro) => {
@@ -30,7 +30,7 @@ class LocacaoController{
             });
     }
 
-    Carregarlocacoes(){
+    CarregarLocacoes(){
         
         var self = this;
         console.log("carregando locacoes...");
@@ -47,9 +47,7 @@ class LocacaoController{
         };
 
         xhttp.open("GET", "http://localhost:8080/locacoes");
-        xhttp.send();        
-
-        CarregarLocacao();
+        xhttp.send();
 
     }
 

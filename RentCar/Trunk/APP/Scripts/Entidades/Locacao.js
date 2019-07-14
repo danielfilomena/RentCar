@@ -1,15 +1,16 @@
 class Locacao{
 
    
-    constructor(id, idveiculo, idcliente, dataretirada, datadevolucao, valor, formapagamento){
+    constructor(id, veiculoId, veiculoModelo, clienteId, clienteNome, dataRetirada, dataDevolucao, valor, formaPagamento){
         this.id = id;
-        this.idveiculo = idveiculo;
-        //this.login = login;
-        this.idcliente = idcliente;
-        this.dataretirada = dataretirada;
-        this.datadevolucao = datadevolucao;
+        this.veiculoId = veiculoId;
+        this.veiculoModelo = veiculoModelo;
+        this.clienteId = clienteId;
+        this.clienteNome = clienteNome;
+        this.dataRetirada = dataRetirada;
+        this.dataDevolucao = dataDevolucao;
         this.valor = valor;
-        this.formapagamento = formapagamento;
+        this.formaPagamento = formaPagamento;
     }
 
 }

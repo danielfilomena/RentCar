@@ -7,14 +7,15 @@
     {
         public function inserir(LocacaoVeiculo $locacao)
         {
-            $qInserir = "INSERT INTO locacao(veiculoid, clienteid, dataretirada, datadevolucao, valor, formadepagamento) VALUES(:idveiculo, :idcliente, :dataretirada, :datadevolucao, :valor, :formadepagamento)";            
+            $qInserir = "INSERT INTO locacao(veiculoid, clienteid, dataretirada, datadevolucao, valor, formapagamento) VALUES(:veiculoId, :clienteId, :dataRetirada, :dataDevolucao, :valor, :formaPagamento)";            
             $pdo = PDOFactory::getConexao();
             $comando = $pdo->prepare($qInserir);            
-            $comando->bindParam(":idveiculo", $locacao->idVeiculo);
-            //$comando->bindParam(":veiculomodelo", $locacao->veiculoModelo);
-            $comando->bindParam(":idcliente", $locacao->idCliente);
-            //$comando->bindParam(":clientenome", $locacao->clienteNome);
-            $comando->bindParam(":dataretirada", $locacao->dataretirada);                        
+            $comando->bindParam(":veiculoId", $locacao->veiculoId);
+            $comando->bindParam(":clienteId", $locacao->clienteId);
+            $comando->bindParam(":dataRetirada", $locacao->dataRetirada);
+            $comando->bindParam(":dataDevolucao", $locacao->dataDevolucao);
+            $comando->bindParam(":valor", $locacao->valor);
+            $comando->bindParam(":formaPagamento", $locacao->formaPagamento);                                          
             $comando->execute();
             $locacao->id = $pdo->lastInsertId();
             return $locacao;
@@ -34,15 +35,15 @@
         public function atualizar(LocacaoVeiculo $locacao)
         {
 
-            $qAtualizar = "UPDATE locacao SET veiculoid=:idveiculo, clienteid=:idcliente, dataretirada=:dataretirada, datadevolucao=:datadevolucao, valor=:valor, formadepagamento=:formadepagamento WHERE locacaoid=:id";            
+            $qAtualizar = "UPDATE locacao SET veiculoId=:veiculoId, clienteId=:clienteId, dataRetirada=:dataRetirada, dataDevolucao=:dataDevolucao, valor=:valor, formaPagamento=:formaPagamento WHERE locacaoid=:id";            
             $pdo = PDOFactory::getConexao();
             $comando = $pdo->prepare($qAtualizar);
-            $comando->bindParam(":idveiculo", $locacao->idVeiculo);
-            $comando->bindParam(":idcliente", $locacao->idCliente);
-            $comando->bindParam(":dataretirada", $locacao->dataretirada);
-            $comando->bindParam(":datadevolucao", $locacao->datadevolucao);
+            $comando->bindParam(":veiculoId", $locacao->veiculoId);
+            $comando->bindParam(":clienteId", $locacao->clienteId);
+            $comando->bindParam(":dataRetirada", $locacao->dataRetirada);
+            $comando->bindParam(":dataDevolucao", $locacao->dataDevolucao);
             $comando->bindParam(":valor", $locacao->valor);
-            $comando->bindParam(":formadepagamento", $locacao->formadepagamento);
+            $comando->bindParam(":formaPagamento", $locacao->formaPagamento);
             $comando->bindParam(":id",$locacao->id);
             $comando->execute();
             return $locacao;   
@@ -54,11 +55,13 @@
             $query = "SELECT 
                         locacaoid,
                         veiculo.veiculoid veiculoid,
-                        veiculo.veiculomodelo veiculoModelo,
+                        veiculo.veiculomodelo veiculomodelo,
                         cliente.clienteid clienteid,
-                        cliente.clientenome clienteNome,
-                        to_char(dataretirada, 'DD/MM/YYYY') dataretirada
-                        to_char(dataretirada, 'DD/MM/YYYY') datadevolucao
+                        cliente.clientenome clientenome,
+                        to_char(dataretirada, 'DD/MM/YYYY') dataretirada,
+                        to_char(datadevolucao, 'DD/MM/YYYY') datadevolucao,
+                        valor,
+                        formapagamento
                      FROM 
                         LOCACAO
                      INNER JOIN 
@@ -70,7 +73,7 @@
             $comando->execute();
             $locacao=array();   
             while($row = $comando->fetch(PDO::FETCH_OBJ)){
-                $locacao[] = new LocacaoVeiculo($row->locacaoid, $row->veiculoid, $row->veiculomodelo, $row->clienteid, $row->clientenome, $row->dataretirada, $row->datadevolucao, $row->valor, $row->formadepagamento);
+                $locacao[] = new LocacaoVeiculo($row->locacaoid, $row->veiculoid, $row->veiculomodelo, $row->clienteid, $row->clientenome, $row->dataretirada, $row->datadevolucao, $row->valor, $row->formapagamento);
             }
             return $locacao;
         }
@@ -83,8 +86,10 @@
                         veiculo.veiculomodelo veiculoModelo,
                         cliente.clienteid clienteid,
                         cliente.clientenome clienteNome,
-                        to_char(dataretirada, 'DD/MM/YYYY') dataretirada
-                        to_char(dataretirada, 'DD/MM/YYYY') datadevolucao
+                        to_char(dataretirada, 'DD/MM/YYYY') dataretirada,
+                        to_char(datadevolucao, 'DD/MM/YYYY') datadevolucao,
+                        valor,
+                        formapagamento
                     FROM 
                         LOCACAO
                     INNER JOIN 
@@ -98,7 +103,7 @@
             $comando->bindParam (':id', $id);
             $comando->execute();
             $result = $comando->fetch(PDO::FETCH_OBJ);
-            return new LocacaoVeiculo($result->locacaoid, $result->veiculoid, $result->veiculomodelo, $result->clienteid, $result->clientenome, $result->dataretirada, $result->datadevolucao, $result->valor, $result->formadepagamento);
+            return new LocacaoVeiculo($result->locacaoid, $result->veiculoid, $result->veiculomodelo, $result->clienteid, $result->clientenome, $result->dataretirada, $result->datadevolucao, $result->valor, $result->formapagamento);
             
         }
     }
