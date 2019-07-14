@@ -1,10 +1,11 @@
 class Reserva{
-
    
-    constructor(id, veiculo, cliente, dataretirada){
+    constructor(id, idVeiculo,  idCliente,  dataretirada){
         this.id = id;
-        this.veiculo = veiculo;
-        this.cliente = cliente;
+        this.idVeiculo = idVeiculo;
+        //this.veiculoModel = veiculoModelo;
+        this.idCliente = idCliente;
+        //this.clienteNome = clienteNome;
         this.dataretirada = dataretirada;
     }
 

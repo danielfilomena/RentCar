@@ -11,7 +11,9 @@
             $pdo = PDOFactory::getConexao();
             $comando = $pdo->prepare($qInserir);            
             $comando->bindParam(":idveiculo", $reserva->idVeiculo);
+            //$comando->bindParam(":veiculomodelo", $reserva->veiculoModelo);
             $comando->bindParam(":idcliente", $reserva->idCliente);
+            //$comando->bindParam(":clientenome", $reserva->clienteNome);
             $comando->bindParam(":dataretirada", $reserva->dataretirada);                        
             $comando->execute();
             $reserva->id = $pdo->lastInsertId();
@@ -49,9 +51,9 @@
 		    $query = "SELECT 
                         reservaid,
                         veiculo.veiculoid veiculoid,
-                        veiculo.veiculomodelo veiculomodelo,
+                        veiculo.veiculomodelo veiculoModelo,
                         cliente.clienteid clienteid,
-                        cliente.clientenome clientenome,
+                        cliente.clientenome clienteNome,
                         to_char(dataretirada, 'DD/MM/YYYY') dataretirada
                      FROM 
                         RESERVA
@@ -71,13 +73,28 @@
 
         public function buscarPorId($id)
         {
- 		    $query = "SELECT * FROM reserva WHERE reservaid=:id";		
+ 		    $query = "SELECT 
+                        reservaid,
+                        veiculo.veiculoid veiculoid,
+                        veiculo.veiculomodelo veiculoModelo,
+                        cliente.clienteid clienteid,
+                        cliente.clientenome clienteNome,
+                        to_char(dataretirada, 'DD/MM/YYYY') dataretirada
+                    FROM 
+                        RESERVA
+                    INNER JOIN 
+                        VEICULO ON reserva.veiculoid = veiculo.veiculoid
+                    INNER JOIN 
+                        CLIENTE ON reserva.clienteid = cliente.clienteid  
+                    WHERE reservaid=:id";		
+
             $pdo = PDOFactory::getConexao(); 
 		    $comando = $pdo->prepare($query);
 		    $comando->bindParam (':id', $id);
 		    $comando->execute();
 		    $result = $comando->fetch(PDO::FETCH_OBJ);
-		    return new ReservaVeiculo($result->reservaid, $result->veiculoid, $result->clienteid, $result->dataretirada);
+            return new ReservaVeiculo($result->reservaid, $result->veiculoid, $result->veiculomodelo, $result->clienteid, $result->clientenome, $result->dataretirada);
+            
         }
     }
 ?>

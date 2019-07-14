@@ -11,15 +11,15 @@ class ReservaController{
         var self = this;
         event.preventDefault();
         var reserva = new Reserva();
-        reserva.veiculo = document.querySelector("#veiculo").value;
-        reserva.cliente = document.querySelector("#cliente").value;
-        reserva.dataretirada = document.querySelector("#dataretirada").value;
+        reserva.id = document.querySelector("#codigo").value;
+        reserva.idVeiculo = document.querySelector("#selectVeiculo").value;
+        reserva.idCliente = document.querySelector("#selectCliente").value;
+        reserva.dataretirada = document.querySelector("#data").value;
         
         this.reservaService.enviarReserva(reserva,
             (resposta, erro) => {
                 if(resposta){
-                    self.CarregarReserva();
-                    //self.limparFormulario();
+                    self.CarregarReserva();            
                 }
                 else if(erro){
                     console.log("Erro: "+erro.msg);
@@ -37,16 +37,16 @@ class ReservaController{
 
             if (this.readyState === 4 && this.status === 200) {
                 console.log(self);
-               //self.montarTabela(JSON.parse(this.responseText));
                var reservas = JSON.parse(this.responseText);
-               carregarTabela(reservas);
-                              
+               carregarTabela(reservas);               
             }
 
         };
 
         xhttp.open("GET", "http://localhost:8080/reservas");
         xhttp.send();        
+
+        CarregarCliente();
 
     }
 

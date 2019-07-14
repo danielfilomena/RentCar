@@ -5,7 +5,7 @@ class ReservaHttpService{
     }
 
     enviarReserva(reserva, callback){
-        
+                      
         var self = this;
         var xhttp = new XMLHttpRequest();
 
@@ -22,10 +22,20 @@ class ReservaHttpService{
             
         };
 
-        xhttp.open("POST", "http://localhost:8080/reservas", true);
-        xhttp.setRequestHeader("Content-Type","application/json");
-        xhttp.send(JSON.stringify(reserva));
+       if(reserva.id == ""){
 
+            xhttp.open("POST", "http://localhost:8080/reservas", true);
+            xhttp.setRequestHeader("Content-Type","application/json");
+            xhttp.send(JSON.stringify(reserva));
+        }
+        else{
+
+            xhttp.open("PUT", "http://localhost:8080/reservas/" + reserva.id, true);
+            xhttp.setRequestHeader("Content-Type","application/json");
+            xhttp.send(JSON.stringify(reserva));
+
+        }
+        
     }
 
     carregarReservas(callback) {
@@ -47,4 +57,6 @@ class ReservaHttpService{
         xhttp.open("GET", "http://localhost:8080/reservas", true);
         xhttp.send();
     }
+    
+
 }

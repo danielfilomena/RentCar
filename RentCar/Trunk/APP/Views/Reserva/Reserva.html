@@ -48,21 +48,20 @@
                                 
                                         <div>
                                             <label>Cliente</label>
-                                            <select class="form-control input-sm" id="selectCliente">
-
+                                            <select class="form-control input-sm" id="selectCliente">                                                                                        
                                             </select>
                                         </div>
                                 
                                         <div>
                                             <label>Data</label>
-                                            <input id="Data" type="text" class="form-control input-sm">
+                                            <input id="data" type="text" class="form-control input-sm">
                                         </div>
                                                                                                 
                                 </div>
                             
                             <div class="modal-footer">
                             
-                                <input type="button" value="Cancelar" class="btn btn-default" data-dismiss="modal">
+                                <input type="button" value="Cancelar" class="btn btn-default" data-dismiss="modal" onclick="limparFormulario()">
                                 <input type="submit" value="Salvar" class="btn btn-primary" id="btnSalvar">                            
 
                             </div>
@@ -95,7 +94,10 @@
 
     <script>
 
-        $("#btnNovo").click(function(){                        
+        $("#btnNovo").click(function(){                                                                                    
+            
+            CarregarCliente();
+            CarregarVeiculos();
 
             $("#modalReserva").modal({
                 backdrop: 'static',
@@ -107,13 +109,13 @@
 
         $("#formulario").submit(function(){
 
-            $("#modalReserva").modal('hide');       
-            CarregarReserva();     
+            $("#modalReserva").modal('hide');
+            CarregarReservas();
 
         });
         
-        function carregarTabela(reservas){
-            
+        function carregarTabela(reservas){                        
+
             var str=`
                     <br/>
                     <table class="table table-striped">
@@ -129,12 +131,12 @@
                         str+=`
                             <tr>
                                 <td>${reservas[i].id}</td>
-                                <td>${reservas[i].clientenome}</td>
-                                <td>${reservas[i].veiculomodelo}</td>                                
+                                <td>${reservas[i].clienteNome}</td>
+                                <td>${reservas[i].veiculoModelo}</td>                                
                                 <td>${reservas[i].dataretirada}</td>
                                 <th>                                     
-                                    <a class="btn btn-xs btn-warning" title="Alterar"><i class="glyphicon glyphicon-edit"></i></a>
-                                    <a class="btn btn-xs btn-danger" title="Excluir"><i class="glyphicon glyphicon-trash"></i></a>                     
+                                    <a class="btn btn-xs btn-warning" title="Alterar" onclick="alterar(${reservas[i].id})"><i class="glyphicon glyphicon-edit"></i></a>
+                                    <a class="btn btn-xs btn-danger" title="Excluir" onclick="excluir(${reservas[i].id})"><i class="glyphicon glyphicon-trash"></i></a>                     
                                 <th>
                             </tr>
                         `;
@@ -143,12 +145,167 @@
     
             var tabela = document.querySelector("#gridReserva");
             tabela.innerHTML = str;
-        } 
-                       
+
+        };
+
+        function limparFormulario(){
+
+            document.getSelection("#codigo").value="";
+            document.getSelection("#selectVeiculo").value="";
+            document.getSelection("#selectCliente").value="";                        
+            document.getSelection("#data").value="";
+
+        }
+
+        function alterar(e){
+            
+            CarregarVeiculos();
+            CarregarCliente();
+            
+            var self = this;
+            console.log("alterando reserva..." + e);
+
+            var xhttp = new XMLHttpRequest();
+            xhttp.onreadystatechange = function(){
+
+                if(this.readyState === 4 && this.status === 200){
+                    console.log(self);
+                    var reserva = JSON.parse(this.responseText);
+
+                    document.querySelector("#codigo").value = reserva.id;                
+                    document.getSelection("#selectVeiculo").value = reserva.idVeiculo;
+                    document.querySelector("#selectCliente").value = reserva.idCliente;
+                    document.querySelector("#data").value = reserva.dataretirada;
+
+                }
+
+            }
+
+            xhttp.open("GET", "http://localhost:8080/reservas/" + e);
+            xhttp.send();
+
+            $("#modalReserva").modal({
+                backdrop: 'static',
+                keyboard: false,
+                show: true
+            });
+
+        }
+        
+        function excluir(e){
+
+            var self = this;
+            console.log("excluindo reserva..." + e);
+
+            var xhttp = new XMLHttpRequest();
+            xhttp.onreadystatechange = function() {
+
+                if (this.readyState === 4 && this.status === 200) {
+                    console.log(self);
+                    var reserva = JSON.parse(this.responseText);            
+                }
+
+            }   
+
+            xhttp.open("DELETE", "http://localhost:8080/reservas/" + e);
+            xhttp.send(); 
+            
+            CarregarReservas();
+        }
+
+        function carregarComboClientes(clientes){
+
+            var str = "<option>Selecione um cliente...</option>";
+
+            for(var i in clientes){
+                str += "<option value='" + clientes[i].id + "'>" + clientes[i].nome + "</option>";
+            }
+
+            var sel = document.querySelector("#selectCliente");
+            sel.innerHTML = str;
+
+        }
+
+        function CarregarCliente(){
+        
+            var self = this;
+            console.log("carregando clientes...");
+
+            var xhttp = new XMLHttpRequest();
+            xhttp.onreadystatechange = function() {
+
+                if (this.readyState === 4 && this.status === 200) {
+                    console.log(self);
+                var clientes = JSON.parse(this.responseText);
+                carregarComboClientes(clientes);               
+                }
+
+            };
+
+            xhttp.open("GET", "http://localhost:8080/clientes");
+            xhttp.send();        
+
+        }
+
+        function carregarComboVeiculos(veiculos){
+
+            var str = "<option>Selecione um veículo...</option>";
+
+            for(var i in veiculos){
+                str += "<option value='" + veiculos[i].id + "'>" + veiculos[i].modelo + "</option>";
+            }
+
+            var sel = document.querySelector("#selectVeiculo");
+            sel.innerHTML = str;
+
+        }
+
+        function CarregarVeiculos(){
+
+            var self = this;
+            console.log("carregando Veiculos...");
+
+            var xhttp = new XMLHttpRequest();
+            xhttp.onreadystatechange = function() {
+
+                if (this.readyState === 4 && this.status === 200) {
+                    console.log(self);
+                var veiculos = JSON.parse(this.responseText);
+                carregarComboVeiculos(veiculos);               
+                }
+
+            };
+
+            xhttp.open("GET", "http://localhost:8080/veiculos");
+            xhttp.send();        
+
+        }
+
+        function CarregarReservas(){
+        
+            var self = this;
+            console.log("carregando reservas...");
+
+            var xhttp = new XMLHttpRequest();
+            xhttp.onreadystatechange = function() {
+
+                if (this.readyState === 4 && this.status === 200) {
+                    console.log(self);
+                var reservas = JSON.parse(this.responseText);
+                carregarTabela(reservas);               
+                }
+
+            };
+
+            xhttp.open("GET", "http://localhost:8080/reservas");
+            xhttp.send();       
+            
+            limparFormulario();
+
+        }
+
     </script>
 
 </body>
-
-
 
 </html>

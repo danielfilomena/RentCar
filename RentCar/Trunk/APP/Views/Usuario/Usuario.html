@@ -60,7 +60,7 @@
                             
                             <div class="modal-footer">
                             
-                                <input type="button" value="Cancelar" class="btn btn-default" data-dismiss="modal">
+                                <input type="button" value="Cancelar" class="btn btn-default" data-dismiss="modal" onclick="limparFormulario()">
                                 <input type="submit" value="Salvar" class="btn btn-primary" id="btnSalvar">                            
 
                             </div>
@@ -95,12 +95,13 @@
     <script src="\APP\Scripts\Usuario.js"></script>
 
     <script>
-        
+            
+
         $("#formulario").submit(function(){
 
             $("#modalUser").modal('hide');       
             CarregarUsuarios();     
-            
+
         });
 
         function carregarTabela(usuarios){
@@ -134,8 +135,8 @@
             tabela.innerHTML = str;
         }
                      
-        $("#btnNovo").click(function(){                        
-
+        $("#btnNovo").click(function(){            
+                        
             $("#modalUser").modal({
                 backdrop: 'static',
                 keyboard: false,
@@ -173,7 +174,7 @@
                 keyboard: false,
                 show: true
             });
-                        
+                                    
         }
 
         function excluir(e){

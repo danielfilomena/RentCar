@@ -30,7 +30,7 @@ class ReservaVeiculoController {
     public function inserir( $request, $response, $args) {
 
         $var = $request->getParsedBody();
-        $reserva = new ReservaVeiculo(0, $var["idVeiculo"], $var["idCliente"], $var["dataretirada"]);
+        $reserva = new ReservaVeiculo(0, $var["idVeiculo"], $var["veiculoModelo"], $var["idCliente"], $var["clienteNome"], $var["dataretirada"]);
     
         $dao = new ReservaVeiculoDAO;
         $reserva = $dao->inserir($reserva);
@@ -43,7 +43,7 @@ class ReservaVeiculoController {
         $id = $args['id'];
         $var = $request->getParsedBody();
         
-        $reserva = new ReservaVeiculo($id, $var["idVeiculo"], $var["idCliente"], $var["dataretirada"]);
+        $reserva = new ReservaVeiculo($id, $var["idVeiculo"], $var["veiculoModelo"], $var["idCliente"], $var["clienteNome"], $var["dataretirada"]);
         
         $dao = new ReservaVeiculoDAO;
         $reserva = $dao->atualizar($reserva);
