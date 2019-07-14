@@ -38,6 +38,15 @@ class VeiculoHttpService{
         
     }
 
+    limparFormulario(){
+
+        document.getSelection("#codigo").value="";
+        document.getSelection("#selectVeiculo").value="";
+        document.getSelection("#selectCliente").value="";                        
+        document.getSelection("#data").value="";
+
+    }
+
     carregarVeiculos(callback) {
 
         var self = this;
@@ -56,5 +65,7 @@ class VeiculoHttpService{
 
         xhttp.open("GET", "http://localhost:8080/veiculos", true);
         xhttp.send();
+
+        limparFormulario();
     }
 }
